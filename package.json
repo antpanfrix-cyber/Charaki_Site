@@ -7,9 +7,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "typegen": "sanity schema extract --path schema.json --enforce-required-fields && sanity typegen generate"
+    "typegen": "sanity schema extract --path schema.json --enforce-required-fields --force && sanity typegen generate"
   },
   "dependencies": {
+    "@portabletext/react": "^8.0.0",
     "@sanity/client": "^7.26.2",
     "@sanity/image-url": "^2.1.1",
     "@sanity/vision": "^6.9.2",

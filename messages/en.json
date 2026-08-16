@@ -27,5 +27,26 @@
     "welcomeHeadingFallback": "Welcome to \"To Charaki\"",
     "welcomeTextFallback": "This is a place dedicated to preserving the memory of our ancestors, celebrating our cultural heritage, and keeping our traditions alive. Through music, dance, stories, customs, photographs, and community activities, we connect the past with the present and pass our heritage on to future generations.",
     "welcomeCtaFallback": "Learn More About Us →"
+  },
+  "NewsPage": {
+    "title": "Latest News",
+    "empty": "No news yet. Check back soon.",
+    "readMore": "Read More",
+    "untitledFallback": "Untitled"
+  },
+  "NewsCategory": {
+    "announcement": "Announcement",
+    "event": "Event",
+    "community": "Community",
+    "culture": "Culture"
+  },
+  "EventsPage": {
+    "title": "Our Events",
+    "upcoming": "Upcoming Events",
+    "past": "Past Events",
+    "emptyUpcoming": "No upcoming events at the moment.",
+    "emptyPast": "No past events yet.",
+    "viewEvent": "View Event",
+    "untitledFallback": "Untitled"
   }
 }

@@ -101,6 +101,10 @@ export const eventBySlugQuery = defineQuery(`
   }
 `);
 
+export const eventSlugsQuery = defineQuery(`
+  *[_type == "event" && defined(slug.current)].slug.current
+`);
+
 // Archive
 
 export const archiveItemsQuery = defineQuery(`
