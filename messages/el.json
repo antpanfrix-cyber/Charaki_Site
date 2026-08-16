@@ -48,5 +48,20 @@
     "emptyPast": "Δεν υπάρχουν ακόμη παλαιότερες εκδηλώσεις.",
     "viewEvent": "Δείτε την Εκδήλωση",
     "untitledFallback": "Χωρίς τίτλο"
+  },
+  "ArchivePage": {
+    "title": "Το Αρχείο μας",
+    "empty": "Το αρχείο είναι προς το παρόν άδειο. Επισκεφθείτε μας ξανά σύντομα.",
+    "untitledFallback": "Χωρίς τίτλο",
+    "openLink": "Άνοιγμα Συνδέσμου",
+    "downloadFile": "Λήψη"
+  },
+  "ArchiveCategory": {
+    "photographs": "Φωτογραφίες",
+    "historicalDocuments": "Ιστορικά Έγγραφα",
+    "familyStories": "Οικογενειακές Ιστορίες",
+    "oralHistories": "Προφορικές Μαρτυρίες",
+    "videos": "Βίντεο",
+    "audioArchive": "Ηχητικό Αρχείο"
   }
 }

@@ -116,7 +116,7 @@ export const archiveItemsQuery = defineQuery(`
     location,
     person,
     image,
-    file,
+    "file": file.asset->{ url, originalFilename, mimeType },
     externalUrl,
     description
   }

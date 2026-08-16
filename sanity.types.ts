@@ -584,7 +584,7 @@ export type EventSlugsQueryResult = Array<string>;
 
 // Source: src/sanity/queries.ts
 // Variable: archiveItemsQuery
-// Query: *[_type == "archiveItem"] | order(year desc) {    _id,    title,    category,    year,    location,    person,    image,    file,    externalUrl,    description  }
+// Query: *[_type == "archiveItem"] | order(year desc) {    _id,    title,    category,    year,    location,    person,    image,    "file": file.asset->{ url, originalFilename, mimeType },    externalUrl,    description  }
 export type ArchiveItemsQueryResult = Array<{
   _id: string;
   title: LocaleString | null;
@@ -606,9 +606,9 @@ export type ArchiveItemsQueryResult = Array<{
     _type: "image";
   } | null;
   file: {
-    asset?: SanityFileAssetReference;
-    media?: unknown;
-    _type: "file";
+    url: string;
+    originalFilename: string | null;
+    mimeType: string;
   } | null;
   externalUrl: string | null;
   description: LocaleText | null;
@@ -628,6 +628,6 @@ declare module "@sanity/client" {
     '\n  *[_type == "event" && isUpcoming == false] | order(date desc) {\n    _id,\n    title,\n    "slug": slug.current,\n    date,\n    time,\n    location,\n    image,\n    description\n  }\n': PastEventsQueryResult;
     '\n  *[_type == "event" && slug.current == $slug][0] {\n    title,\n    date,\n    time,\n    location,\n    image,\n    description,\n    isUpcoming\n  }\n': EventBySlugQueryResult;
     '\n  *[_type == "event" && defined(slug.current)].slug.current\n': EventSlugsQueryResult;
-    '\n  *[_type == "archiveItem"] | order(year desc) {\n    _id,\n    title,\n    category,\n    year,\n    location,\n    person,\n    image,\n    file,\n    externalUrl,\n    description\n  }\n': ArchiveItemsQueryResult;
+    '\n  *[_type == "archiveItem"] | order(year desc) {\n    _id,\n    title,\n    category,\n    year,\n    location,\n    person,\n    image,\n    "file": file.asset->{ url, originalFilename, mimeType },\n    externalUrl,\n    description\n  }\n': ArchiveItemsQueryResult;
   }
 }

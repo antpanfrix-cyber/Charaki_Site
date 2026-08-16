@@ -48,5 +48,20 @@
     "emptyPast": "No past events yet.",
     "viewEvent": "View Event",
     "untitledFallback": "Untitled"
+  },
+  "ArchivePage": {
+    "title": "Our Archive",
+    "empty": "The archive is empty for now. Check back soon.",
+    "untitledFallback": "Untitled",
+    "openLink": "Open Link",
+    "downloadFile": "Download"
+  },
+  "ArchiveCategory": {
+    "photographs": "Photographs",
+    "historicalDocuments": "Historical Documents",
+    "familyStories": "Family Stories",
+    "oralHistories": "Oral Histories",
+    "videos": "Videos",
+    "audioArchive": "Audio Archive"
   }
 }
