@@ -1,0 +1,31 @@
+{
+  "Navigation": {
+    "home": "Home",
+    "about": "About Us",
+    "roots": "Our Roots",
+    "culture": "Culture & Tradition",
+    "events": "Events",
+    "news": "News",
+    "archive": "Archive",
+    "contact": "Contact"
+  },
+  "Header": {
+    "siteName": "To Charaki",
+    "fullName": "Cultural Association of Mikrasians of Limenaria \"To Charaki\"",
+    "becomeMemberCta": "Become a Member"
+  },
+  "Footer": {
+    "fullName": "Cultural Association of Mikrasians of Limenaria \"To Charaki\"",
+    "tagline": "Memory • Heritage • Culture",
+    "copyright": "© {year} Cultural Association of Mikrasians of Limenaria \"To Charaki\". All rights reserved."
+  },
+  "HomePage": {
+    "heroTitleFallback": "Cultural Association of Mikrasians of Limenaria \"To Charaki\"",
+    "heroTaglineFallback": "Memory • Heritage • Culture",
+    "heroPrimaryCtaFallback": "Discover Our Story",
+    "heroSecondaryCtaFallback": "Explore Our Roots",
+    "welcomeHeadingFallback": "Welcome to \"To Charaki\"",
+    "welcomeTextFallback": "This is a place dedicated to preserving the memory of our ancestors, celebrating our cultural heritage, and keeping our traditions alive. Through music, dance, stories, customs, photographs, and community activities, we connect the past with the present and pass our heritage on to future generations.",
+    "welcomeCtaFallback": "Learn More About Us →"
+  }
+}
