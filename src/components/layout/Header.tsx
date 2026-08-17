@@ -3,6 +3,7 @@ import { getTranslations } from "next-intl/server";
 import { navigation } from "@/config/navigation";
 import { Link } from "@/i18n/navigation";
 
+import { LanguageSwitcher } from "./LanguageSwitcher";
 import { MobileMenu } from "./MobileMenu";
 
 export async function Header() {
@@ -41,6 +42,10 @@ export async function Header() {
             ))}
           </ul>
         </nav>
+
+        <div className="hidden shrink-0 md:block">
+          <LanguageSwitcher />
+        </div>
 
         <Link
           href="/contact"

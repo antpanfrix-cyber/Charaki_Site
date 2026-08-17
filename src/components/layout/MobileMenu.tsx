@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 
 import { Link } from "@/i18n/navigation";
 
+import { LanguageSwitcher } from "./LanguageSwitcher";
+
 type NavItem = {
   href: string;
   label: string;
@@ -96,7 +98,7 @@ export function MobileMenu({
         id="mobile-menu"
         inert={!isOpen}
         className={`absolute inset-x-0 top-full z-50 overflow-hidden border-b border-gold/30 bg-navy shadow-lg transition-[max-height,opacity] duration-300 ease-in-out ${
-          isOpen ? "max-h-[28rem] opacity-100" : "max-h-0 opacity-0"
+          isOpen ? "max-h-[32rem] opacity-100" : "max-h-0 opacity-0"
         }`}
       >
         <ul className="flex flex-col gap-1 px-6 pt-2 text-sm">
@@ -112,7 +114,10 @@ export function MobileMenu({
             </li>
           ))}
         </ul>
-        <div className="px-6 pt-2 pb-6">
+        <div className="mx-6 mt-2 flex items-center justify-center border-t border-ivory/10 pt-4">
+          <LanguageSwitcher />
+        </div>
+        <div className="px-6 pt-4 pb-6">
           <Link
             href="/contact"
             onClick={() => setIsOpen(false)}
