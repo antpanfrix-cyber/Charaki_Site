@@ -12,7 +12,9 @@
   "Header": {
     "siteName": "To Charaki",
     "fullName": "Cultural Association of Mikrasians of Limenaria \"To Charaki\"",
-    "becomeMemberCta": "Become a Member"
+    "becomeMemberCta": "Become a Member",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
   },
   "Footer": {
     "fullName": "Cultural Association of Mikrasians of Limenaria \"To Charaki\"",
@@ -187,5 +189,19 @@
         "description": "\"To Charaki\" continues its mission — preserving memory, celebrating culture, and welcoming new generations into its story."
       }
     }
+  },
+  "Metadata": {
+    "title": "Cultural Association of Mikrasians of Limenaria \"To Charaki\"",
+    "description": "The official website of the Cultural Association of Mikrasians of Limenaria \"To Charaki\" — preserving the memory, traditions, and heritage of the Asia Minor Greek refugee community in Limenaria, Thasos.",
+    "keywords": [
+      "Mikrasians",
+      "Asia Minor Greeks",
+      "Limenaria",
+      "Thasos",
+      "Cultural Association",
+      "To Charaki",
+      "Greek heritage",
+      "refugee heritage"
+    ]
   }
 }
