@@ -105,5 +105,87 @@
     "errorMessage": "Something went wrong. Please try again.",
     "requiredError": "This field is required.",
     "invalidEmailError": "Please enter a valid email address."
+  },
+  "RootsPage": {
+    "title": "Our Roots",
+    "subtitle": "Memory does not disappear when we share it.",
+    "cta": "Explore Our Roots",
+    "cards": {
+      "asiaMinor": {
+        "title": "Asia Minor",
+        "description": "Explore the history, places, communities, and cultural heritage of the Asia Minor Greeks."
+      },
+      "refugees": {
+        "title": "The Refugees in Limenaria",
+        "description": "Discover the journey, settlement, and development of the Mikrasian community in Limenaria."
+      },
+      "familyStories": {
+        "title": "Family Stories",
+        "description": "Personal stories, memories, testimonies, and family histories passed from generation to generation."
+      },
+      "historicalArchive": {
+        "title": "Historical Archive",
+        "description": "Photographs, documents, objects, and other historical material preserved by the community."
+      }
+    }
+  },
+  "CulturePage": {
+    "title": "Culture & Tradition",
+    "subtitle": "The living cultural heritage of our community, kept alive through generations.",
+    "viewMore": "View More",
+    "cards": {
+      "dance": {
+        "title": "Traditional Dance",
+        "description": "Traditional dances and the Association's dance groups."
+      },
+      "music": {
+        "title": "Music",
+        "description": "Asia Minor songs, traditional music, musicians, and performances."
+      },
+      "costumes": {
+        "title": "Traditional Costumes",
+        "description": "Information about traditional costumes, their origins, symbolism, and use."
+      },
+      "customs": {
+        "title": "Customs & Celebrations",
+        "description": "Traditional customs, festivals, celebrations, and practices preserved through generations."
+      },
+      "cuisine": {
+        "title": "Cuisine",
+        "description": "Traditional Asia Minor recipes, ingredients, dishes, and culinary traditions."
+      }
+    }
+  },
+  "AboutPage": {
+    "title": "About Us",
+    "intro": "The Cultural Association of Mikrasians of Limenaria \"To Charaki\" was founded to preserve the memory, traditions, and identity of the Asia Minor Greek refugees who found a new home in Limenaria, Thasos — and to pass that heritage on to future generations.",
+    "journeyTitle": "Our Journey",
+    "journeyIntro": "From a small gathering of families determined to keep their heritage alive to a thriving cultural home — follow the milestones that shaped our community.",
+    "milestones": {
+      "foundation": {
+        "title": "Foundation of the Association",
+        "description": "A group of Mikrasian families in Limenaria come together to found the Association, determined to keep the memory of Asia Minor alive."
+      },
+      "firstActivities": {
+        "title": "The First Activities",
+        "description": "The Association organizes its earliest gatherings, cultural evenings, and community events, laying the foundation for what was to come."
+      },
+      "danceGroups": {
+        "title": "Creation of Cultural & Dance Groups",
+        "description": "Dedicated dance and music groups are formed to teach and preserve the traditional dances and songs of Asia Minor."
+      },
+      "culturalEvents": {
+        "title": "Cultural Events & Community Activities",
+        "description": "The Association grows into a vibrant community hub, hosting festivals, celebrations, and events that bring generations together."
+      },
+      "collaborations": {
+        "title": "Collaborations & Participation in Cultural Events",
+        "description": "The Association partners with other cultural organizations and takes part in regional and national events, sharing its heritage more widely."
+      },
+      "today": {
+        "title": "Today",
+        "description": "\"To Charaki\" continues its mission — preserving memory, celebrating culture, and welcoming new generations into its story."
+      }
+    }
   }
 }
