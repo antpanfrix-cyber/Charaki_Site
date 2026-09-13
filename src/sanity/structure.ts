@@ -14,22 +14,22 @@ const CUSTOM_LIST_TYPES = new Set([...SINGLETON_TYPES]);
 
 export const structure: StructureResolver = (S) =>
   S.list()
-    .title("Content")
+    .title("Περιεχόμενο")
     .items([
       S.listItem()
-        .title("Homepage")
+        .title("Αρχική Σελίδα")
         .id("homePage")
         .child(
           S.document().schemaType("homePage").documentId("homePage"),
         ),
       S.listItem()
-        .title("Contact Page")
+        .title("Σελίδα Επικοινωνίας")
         .id("contactPage")
         .child(
           S.document().schemaType("contactPage").documentId("contactPage"),
         ),
       S.listItem()
-        .title("Site Settings")
+        .title("Ρυθμίσεις Ιστότοπου")
         .id("siteSettings")
         .child(
           S.document().schemaType("siteSettings").documentId("siteSettings"),

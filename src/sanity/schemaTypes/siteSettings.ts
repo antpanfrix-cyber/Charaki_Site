@@ -2,51 +2,51 @@ import { defineField, defineType } from "sanity";
 
 export const siteSettings = defineType({
   name: "siteSettings",
-  title: "Site Settings",
+  title: "Ρυθμίσεις Ιστότοπου",
   type: "document",
   fields: [
     defineField({
       name: "siteTitle",
-      title: "Site Title",
+      title: "Τίτλος Ιστότοπου",
       type: "localeString",
     }),
     defineField({
       name: "logo",
-      title: "Logo",
+      title: "Λογότυπο",
       type: "image",
     }),
     defineField({
       name: "seo",
-      title: "Default SEO",
+      title: "Προεπιλεγμένο SEO",
       type: "object",
       fields: [
-        defineField({ name: "title", title: "Title", type: "localeString" }),
+        defineField({ name: "title", title: "Τίτλος", type: "localeString" }),
         defineField({
           name: "description",
-          title: "Description",
+          title: "Περιγραφή",
           type: "localeText",
         }),
       ],
     }),
     defineField({
       name: "email",
-      title: "Contact Email",
+      title: "Email Επικοινωνίας",
       type: "string",
       validation: (rule) => rule.email(),
     }),
     defineField({
       name: "phone",
-      title: "Contact Phone",
+      title: "Τηλέφωνο Επικοινωνίας",
       type: "string",
     }),
     defineField({
       name: "address",
-      title: "Address",
+      title: "Διεύθυνση",
       type: "localeString",
     }),
     defineField({
       name: "socialLinks",
-      title: "Social Links",
+      title: "Σύνδεσμοι Κοινωνικών Δικτύων",
       type: "object",
       fields: [
         defineField({ name: "facebook", title: "Facebook", type: "url" }),

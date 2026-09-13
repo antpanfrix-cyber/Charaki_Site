@@ -2,7 +2,7 @@ import { defineField, defineType } from "sanity";
 
 export const localeText = defineType({
   name: "localeText",
-  title: "Localized Text",
+  title: "Πολύγλωσσο Κείμενο (Μεγάλο)",
   type: "object",
   fields: [
     defineField({

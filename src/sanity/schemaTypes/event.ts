@@ -2,18 +2,20 @@ import { defineField, defineType } from "sanity";
 
 export const event = defineType({
   name: "event",
-  title: "Event",
+  title: "Εκδήλωση",
   type: "document",
   fields: [
     defineField({
       name: "title",
-      title: "Title",
+      title: "Τίτλος",
       type: "localeString",
     }),
     defineField({
       name: "slug",
-      title: "Slug",
+      title: "Σύντομος Σύνδεσμος (Slug)",
       type: "slug",
+      description:
+        "Δημιουργείται αυτόματα από τον αγγλικό τίτλο και χρησιμοποιείται στη διεύθυνση URL της σελίδας (π.χ. /events/onoma-ekdilosis). Πατήστε 'Generate' για να το δημιουργήσετε ή να το ανανεώσετε.",
       options: {
         source: (doc) => {
           const title = doc.title as { en?: string } | undefined;
@@ -25,38 +27,38 @@ export const event = defineType({
     }),
     defineField({
       name: "date",
-      title: "Date",
+      title: "Ημερομηνία",
       type: "date",
       validation: (rule) => rule.required(),
     }),
     defineField({
       name: "time",
-      title: "Time",
+      title: "Ώρα",
       type: "string",
-      description: 'e.g. "18:00"',
+      description: 'π.χ. "18:00"',
     }),
     defineField({
       name: "location",
-      title: "Location",
+      title: "Τοποθεσία",
       type: "localeString",
     }),
     defineField({
       name: "image",
-      title: "Image",
+      title: "Εικόνα",
       type: "image",
       options: { hotspot: true },
     }),
     defineField({
       name: "description",
-      title: "Description",
+      title: "Περιγραφή",
       type: "localeText",
     }),
     defineField({
       name: "isUpcoming",
-      title: "Upcoming Event",
+      title: "Επερχόμενη Εκδήλωση",
       type: "boolean",
       description:
-        "Controls whether this event is listed under Upcoming or Past events.",
+        "Καθορίζει αν η εκδήλωση εμφανίζεται στις Επερχόμενες ή στις Παλαιότερες εκδηλώσεις.",
       initialValue: true,
     }),
   ],

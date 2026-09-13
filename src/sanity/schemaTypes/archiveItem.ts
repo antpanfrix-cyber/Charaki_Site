@@ -11,26 +11,26 @@ const URL_CATEGORIES = ["oralHistories", "videos", "audioArchive"];
 
 export const archiveItem = defineType({
   name: "archiveItem",
-  title: "Archive Item",
+  title: "Στοιχείο Αρχείου",
   type: "document",
   fields: [
     defineField({
       name: "title",
-      title: "Title",
+      title: "Τίτλος",
       type: "localeString",
     }),
     defineField({
       name: "category",
-      title: "Category",
+      title: "Κατηγορία",
       type: "string",
       options: {
         list: [
-          { title: "Photographs", value: "photographs" },
-          { title: "Historical Documents", value: "historicalDocuments" },
-          { title: "Family Stories", value: "familyStories" },
-          { title: "Oral Histories", value: "oralHistories" },
-          { title: "Videos", value: "videos" },
-          { title: "Audio Archive", value: "audioArchive" },
+          { title: "Φωτογραφίες", value: "photographs" },
+          { title: "Ιστορικά Έγγραφα", value: "historicalDocuments" },
+          { title: "Οικογενειακές Ιστορίες", value: "familyStories" },
+          { title: "Προφορικές Μαρτυρίες", value: "oralHistories" },
+          { title: "Βίντεο", value: "videos" },
+          { title: "Ηχητικό Αρχείο", value: "audioArchive" },
         ],
         layout: "dropdown",
       },
@@ -38,49 +38,49 @@ export const archiveItem = defineType({
     }),
     defineField({
       name: "year",
-      title: "Year",
+      title: "Έτος",
       type: "number",
     }),
     defineField({
       name: "location",
-      title: "Location",
+      title: "Τοποθεσία",
       type: "string",
     }),
     defineField({
       name: "person",
-      title: "Associated Family / Person",
+      title: "Σχετική Οικογένεια / Πρόσωπο",
       type: "string",
     }),
     defineField({
       name: "image",
-      title: "Image",
+      title: "Εικόνα",
       type: "image",
       options: { hotspot: true },
-      description: "Used for Photographs.",
+      description: "Χρησιμοποιείται για Φωτογραφίες.",
       hidden: ({ document }) =>
         !IMAGE_CATEGORIES.includes(document?.category as string),
     }),
     defineField({
       name: "file",
-      title: "File",
+      title: "Αρχείο",
       type: "file",
       description:
-        "Used for Historical Documents, Oral Histories, Videos, and Audio Archive items.",
+        "Χρησιμοποιείται για Ιστορικά Έγγραφα, Προφορικές Μαρτυρίες, Βίντεο και Ηχητικό Αρχείο.",
       hidden: ({ document }) =>
         !FILE_CATEGORIES.includes(document?.category as string),
     }),
     defineField({
       name: "externalUrl",
-      title: "External URL",
+      title: "Εξωτερικός Σύνδεσμος",
       type: "url",
       description:
-        "Optional link to externally hosted media (e.g. YouTube, SoundCloud) for Oral Histories, Videos, and Audio Archive items.",
+        "Προαιρετικός σύνδεσμος σε εξωτερικά φιλοξενούμενα πολυμέσα (π.χ. YouTube, SoundCloud) για Προφορικές Μαρτυρίες, Βίντεο και Ηχητικό Αρχείο.",
       hidden: ({ document }) =>
         !URL_CATEGORIES.includes(document?.category as string),
     }),
     defineField({
       name: "description",
-      title: "Description",
+      title: "Περιγραφή",
       type: "localeText",
     }),
   ],

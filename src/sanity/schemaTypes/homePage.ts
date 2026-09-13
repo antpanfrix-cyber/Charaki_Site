@@ -2,7 +2,7 @@ import { defineField, defineType } from "sanity";
 
 export const homePage = defineType({
   name: "homePage",
-  title: "Homepage",
+  title: "Αρχική Σελίδα",
   type: "document",
   fields: [
     defineField({
@@ -10,77 +10,89 @@ export const homePage = defineType({
       title: "SEO",
       type: "object",
       fields: [
-        defineField({ name: "title", title: "Title", type: "localeString" }),
+        defineField({ name: "title", title: "Τίτλος", type: "localeString" }),
         defineField({
           name: "description",
-          title: "Description",
+          title: "Περιγραφή",
           type: "localeText",
         }),
       ],
     }),
     defineField({
       name: "hero",
-      title: "Hero Section",
+      title: "Κεντρική Ενότητα (Hero)",
       type: "object",
       fields: [
-        defineField({ name: "title", title: "Title", type: "localeString" }),
+        defineField({ name: "title", title: "Τίτλος", type: "localeString" }),
         defineField({
           name: "tagline",
-          title: "Tagline",
+          title: "Σύνθημα",
           type: "localeString",
         }),
         defineField({
           name: "image",
-          title: "Background Image",
+          title: "Εικόνα Φόντου",
           type: "image",
           options: { hotspot: true },
         }),
         defineField({
           name: "primaryCta",
-          title: "Primary CTA",
+          title: "Κύριο Κουμπί Δράσης",
           type: "object",
           fields: [
             defineField({
               name: "label",
-              title: "Label",
+              title: "Ετικέτα",
               type: "localeString",
             }),
-            defineField({ name: "href", title: "Link", type: "string" }),
+            defineField({
+              name: "href",
+              title: "Σύνδεσμος",
+              type: "string",
+              description:
+                "Διεύθυνση προορισμού του κουμπιού: εσωτερική διαδρομή (π.χ. /archive) ή πλήρες εξωτερικό URL (π.χ. https://...).",
+            }),
           ],
         }),
         defineField({
           name: "secondaryCta",
-          title: "Secondary CTA",
+          title: "Δευτερεύον Κουμπί Δράσης",
           type: "object",
           fields: [
             defineField({
               name: "label",
-              title: "Label",
+              title: "Ετικέτα",
               type: "localeString",
             }),
-            defineField({ name: "href", title: "Link", type: "string" }),
+            defineField({
+              name: "href",
+              title: "Σύνδεσμος",
+              type: "string",
+              description:
+                "Διεύθυνση προορισμού του κουμπιού: εσωτερική διαδρομή (π.χ. /archive) ή πλήρες εξωτερικό URL (π.χ. https://...).",
+            }),
           ],
         }),
       ],
     }),
     defineField({
       name: "welcome",
-      title: "Welcome Section",
+      title: "Ενότητα Καλωσορίσματος",
       type: "object",
       fields: [
         defineField({
           name: "heading",
-          title: "Heading",
+          title: "Επικεφαλίδα",
           type: "localeString",
         }),
         defineField({
           name: "text",
-          title: "Text",
+          title: "Κείμενο",
           type: "localeBlockContent",
         }),
         defineField({
           name: "ctaLabel",
-          title: "CTA Label",
+          title: "Ετικέτα Κουμπιού",
           type: "localeString",
         }),
       ],

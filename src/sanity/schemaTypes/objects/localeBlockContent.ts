@@ -2,7 +2,7 @@ import { defineField, defineType } from "sanity";
 
 export const localeBlockContent = defineType({
   name: "localeBlockContent",
-  title: "Localized Block Content",
+  title: "Πολύγλωσσο Εμπλουτισμένο Κείμενο",
   type: "object",
   fields: [
     defineField({

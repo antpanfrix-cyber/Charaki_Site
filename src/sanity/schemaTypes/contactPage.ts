@@ -2,7 +2,7 @@ import { defineField, defineType } from "sanity";
 
 export const contactPage = defineType({
   name: "contactPage",
-  title: "Contact Page",
+  title: "Σελίδα Επικοινωνίας",
   type: "document",
   fields: [
     defineField({
@@ -10,33 +10,35 @@ export const contactPage = defineType({
       title: "SEO",
       type: "object",
       fields: [
-        defineField({ name: "title", title: "Title", type: "localeString" }),
+        defineField({ name: "title", title: "Τίτλος", type: "localeString" }),
         defineField({
           name: "description",
-          title: "Description",
+          title: "Περιγραφή",
           type: "localeText",
         }),
       ],
     }),
     defineField({
       name: "heading",
-      title: "Heading",
+      title: "Επικεφαλίδα",
       type: "localeString",
     }),
     defineField({
       name: "intro",
-      title: "Intro Text",
+      title: "Εισαγωγικό Κείμενο",
       type: "localeText",
     }),
     defineField({
       name: "address",
-      title: "Address",
+      title: "Διεύθυνση",
       type: "localeString",
     }),
     defineField({
       name: "mapEmbedUrl",
-      title: "Google Maps Embed URL",
+      title: "Σύνδεσμος Ενσωμάτωσης Google Maps",
       type: "url",
+      description:
+        "Ο σύνδεσμος 'Ενσωμάτωση χάρτη' (embed) από το Google Maps: ανοίξτε την τοποθεσία στο Google Maps, επιλέξτε Κοινοποίηση > Ενσωμάτωση χάρτη, και αντιγράψτε τη διεύθυνση URL μέσα από το κομμάτι κώδικα (μόνο το src=\"...\").",
     }),
   ],
 });

@@ -2,18 +2,20 @@ import { defineField, defineType } from "sanity";
 
 export const news = defineType({
   name: "news",
-  title: "News",
+  title: "Νέα",
   type: "document",
   fields: [
     defineField({
       name: "title",
-      title: "Title",
+      title: "Τίτλος",
       type: "localeString",
     }),
     defineField({
       name: "slug",
-      title: "Slug",
+      title: "Σύντομος Σύνδεσμος (Slug)",
       type: "slug",
+      description:
+        "Δημιουργείται αυτόματα από τον αγγλικό τίτλο και χρησιμοποιείται στη διεύθυνση URL της σελίδας (π.χ. /news/onoma-arthrou). Πατήστε 'Generate' για να το δημιουργήσετε ή να το ανανεώσετε.",
       options: {
         source: (doc) => {
           const title = doc.title as { en?: string } | undefined;
@@ -25,20 +27,20 @@ export const news = defineType({
     }),
     defineField({
       name: "publishedAt",
-      title: "Published At",
+      title: "Ημερομηνία Δημοσίευσης",
       type: "datetime",
       validation: (rule) => rule.required(),
     }),
     defineField({
       name: "category",
-      title: "Category",
+      title: "Κατηγορία",
       type: "string",
       options: {
         list: [
-          { title: "Announcement", value: "announcement" },
-          { title: "Event", value: "event" },
-          { title: "Community", value: "community" },
-          { title: "Culture", value: "culture" },
+          { title: "Ανακοίνωση", value: "announcement" },
+          { title: "Εκδήλωση", value: "event" },
+          { title: "Κοινότητα", value: "community" },
+          { title: "Πολιτισμός", value: "culture" },
         ],
         layout: "dropdown",
       },
@@ -46,17 +48,17 @@ export const news = defineType({
     }),
     defineField({
       name: "excerpt",
-      title: "Excerpt",
+      title: "Σύνοψη",
       type: "localeText",
     }),
     defineField({
       name: "content",
-      title: "Content",
+      title: "Περιεχόμενο",
       type: "localeBlockContent",
     }),
     defineField({
       name: "image",
-      title: "Featured Image",
+      title: "Κύρια Εικόνα",
       type: "image",
       options: { hotspot: true },
     }),
