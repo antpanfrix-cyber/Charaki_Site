@@ -201,6 +201,131 @@ export type LocaleBlockContent = {
   >;
 };
 
+export type EventsPage = {
+  _id: string;
+  _type: "eventsPage";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  seo?: {
+    title?: LocaleString;
+    description?: LocaleText;
+  };
+  heading?: LocaleString;
+  intro?: LocaleText;
+};
+
+export type NewsPage = {
+  _id: string;
+  _type: "newsPage";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  seo?: {
+    title?: LocaleString;
+    description?: LocaleText;
+  };
+  heading?: LocaleString;
+  intro?: LocaleText;
+};
+
+export type ArchivePage = {
+  _id: string;
+  _type: "archivePage";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  seo?: {
+    title?: LocaleString;
+    description?: LocaleText;
+  };
+  heading?: LocaleString;
+  intro?: LocaleText;
+};
+
+export type CulturePage = {
+  _id: string;
+  _type: "culturePage";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  seo?: {
+    title?: LocaleString;
+    description?: LocaleText;
+  };
+  heading?: LocaleString;
+  intro?: LocaleText;
+  cards?: Array<{
+    title?: LocaleString;
+    description?: LocaleText;
+    image?: {
+      asset?: SanityImageAssetReference;
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+    };
+    _type: "card";
+    _key: string;
+  }>;
+  viewMoreLabel?: LocaleString;
+};
+
+export type RootsPage = {
+  _id: string;
+  _type: "rootsPage";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  seo?: {
+    title?: LocaleString;
+    description?: LocaleText;
+  };
+  heading?: LocaleString;
+  intro?: LocaleString;
+  cards?: Array<{
+    title?: LocaleString;
+    description?: LocaleText;
+    image?: {
+      asset?: SanityImageAssetReference;
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+    };
+    _type: "card";
+    _key: string;
+  }>;
+  cta?: {
+    label?: LocaleString;
+    href?: string;
+  };
+};
+
+export type AboutPage = {
+  _id: string;
+  _type: "aboutPage";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  seo?: {
+    title?: LocaleString;
+    description?: LocaleText;
+  };
+  heading?: LocaleString;
+  intro?: LocaleText;
+  journey?: {
+    heading?: LocaleString;
+    intro?: LocaleText;
+  };
+  milestones?: Array<{
+    title?: LocaleString;
+    description?: LocaleText;
+    _type: "milestone";
+    _key: string;
+  }>;
+};
+
 export type ContactPage = {
   _id: string;
   _type: "contactPage";
@@ -390,6 +515,12 @@ export type AllSanitySchemaTypes =
   | Slug
   | News
   | LocaleBlockContent
+  | EventsPage
+  | NewsPage
+  | ArchivePage
+  | CulturePage
+  | RootsPage
+  | AboutPage
   | ContactPage
   | SiteSettings
   | HomePage
@@ -474,6 +605,119 @@ export type ContactPageQueryResult = {
   intro: LocaleText | null;
   address: LocaleString | null;
   mapEmbedUrl: string | null;
+} | null;
+
+// Source: src/sanity/queries.ts
+// Variable: aboutPageQuery
+// Query: *[_type == "aboutPage"][0] {    seo,    heading,    intro,    journey,    milestones  }
+export type AboutPageQueryResult = {
+  seo: {
+    title?: LocaleString;
+    description?: LocaleText;
+  } | null;
+  heading: LocaleString | null;
+  intro: LocaleText | null;
+  journey: {
+    heading?: LocaleString;
+    intro?: LocaleText;
+  } | null;
+  milestones: Array<{
+    title?: LocaleString;
+    description?: LocaleText;
+    _type: "milestone";
+    _key: string;
+  }> | null;
+} | null;
+
+// Source: src/sanity/queries.ts
+// Variable: rootsPageQuery
+// Query: *[_type == "rootsPage"][0] {    seo,    heading,    intro,    cards,    cta  }
+export type RootsPageQueryResult = {
+  seo: {
+    title?: LocaleString;
+    description?: LocaleText;
+  } | null;
+  heading: LocaleString | null;
+  intro: LocaleString | null;
+  cards: Array<{
+    title?: LocaleString;
+    description?: LocaleText;
+    image?: {
+      asset?: SanityImageAssetReference;
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+    };
+    _type: "card";
+    _key: string;
+  }> | null;
+  cta: {
+    label?: LocaleString;
+    href?: string;
+  } | null;
+} | null;
+
+// Source: src/sanity/queries.ts
+// Variable: culturePageQuery
+// Query: *[_type == "culturePage"][0] {    seo,    heading,    intro,    cards,    viewMoreLabel  }
+export type CulturePageQueryResult = {
+  seo: {
+    title?: LocaleString;
+    description?: LocaleText;
+  } | null;
+  heading: LocaleString | null;
+  intro: LocaleText | null;
+  cards: Array<{
+    title?: LocaleString;
+    description?: LocaleText;
+    image?: {
+      asset?: SanityImageAssetReference;
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+    };
+    _type: "card";
+    _key: string;
+  }> | null;
+  viewMoreLabel: LocaleString | null;
+} | null;
+
+// Source: src/sanity/queries.ts
+// Variable: archivePageQuery
+// Query: *[_type == "archivePage"][0] {    seo,    heading,    intro  }
+export type ArchivePageQueryResult = {
+  seo: {
+    title?: LocaleString;
+    description?: LocaleText;
+  } | null;
+  heading: LocaleString | null;
+  intro: LocaleText | null;
+} | null;
+
+// Source: src/sanity/queries.ts
+// Variable: newsPageQuery
+// Query: *[_type == "newsPage"][0] {    seo,    heading,    intro  }
+export type NewsPageQueryResult = {
+  seo: {
+    title?: LocaleString;
+    description?: LocaleText;
+  } | null;
+  heading: LocaleString | null;
+  intro: LocaleText | null;
+} | null;
+
+// Source: src/sanity/queries.ts
+// Variable: eventsPageQuery
+// Query: *[_type == "eventsPage"][0] {    seo,    heading,    intro  }
+export type EventsPageQueryResult = {
+  seo: {
+    title?: LocaleString;
+    description?: LocaleText;
+  } | null;
+  heading: LocaleString | null;
+  intro: LocaleText | null;
 } | null;
 
 // Source: src/sanity/queries.ts
@@ -621,6 +865,12 @@ declare module "@sanity/client" {
     '\n  *[_type == "siteSettings"][0] {\n    siteTitle,\n    logo,\n    seo,\n    email,\n    phone,\n    address,\n    socialLinks\n  }\n': SiteSettingsQueryResult;
     '\n  *[_type == "homePage"][0] {\n    seo,\n    hero,\n    welcome\n  }\n': HomePageQueryResult;
     '\n  *[_type == "contactPage"][0] {\n    seo,\n    heading,\n    intro,\n    address,\n    mapEmbedUrl\n  }\n': ContactPageQueryResult;
+    '\n  *[_type == "aboutPage"][0] {\n    seo,\n    heading,\n    intro,\n    journey,\n    milestones\n  }\n': AboutPageQueryResult;
+    '\n  *[_type == "rootsPage"][0] {\n    seo,\n    heading,\n    intro,\n    cards,\n    cta\n  }\n': RootsPageQueryResult;
+    '\n  *[_type == "culturePage"][0] {\n    seo,\n    heading,\n    intro,\n    cards,\n    viewMoreLabel\n  }\n': CulturePageQueryResult;
+    '\n  *[_type == "archivePage"][0] {\n    seo,\n    heading,\n    intro\n  }\n': ArchivePageQueryResult;
+    '\n  *[_type == "newsPage"][0] {\n    seo,\n    heading,\n    intro\n  }\n': NewsPageQueryResult;
+    '\n  *[_type == "eventsPage"][0] {\n    seo,\n    heading,\n    intro\n  }\n': EventsPageQueryResult;
     '\n  *[_type == "news"] | order(publishedAt desc) {\n    _id,\n    title,\n    "slug": slug.current,\n    publishedAt,\n    category,\n    excerpt,\n    image\n  }\n': AllNewsQueryResult;
     '\n  *[_type == "news" && slug.current == $slug][0] {\n    title,\n    publishedAt,\n    category,\n    excerpt,\n    content,\n    image\n  }\n': NewsBySlugQueryResult;
     '\n  *[_type == "news" && defined(slug.current)].slug.current\n': NewsSlugsQueryResult;

@@ -7,7 +7,11 @@ import { client } from "@/sanity/client";
 import { urlForImage } from "@/sanity/image";
 import type { AppLocale } from "@/sanity/locale-content";
 import { pick } from "@/sanity/locale-content";
-import { pastEventsQuery, upcomingEventsQuery } from "@/sanity/queries";
+import {
+  eventsPageQuery,
+  pastEventsQuery,
+  upcomingEventsQuery,
+} from "@/sanity/queries";
 
 import type { PastEventsQueryResult } from "../../../../sanity.types";
 
@@ -73,17 +77,24 @@ export default async function EventsPage({
   const appLocale = locale as AppLocale;
   setRequestLocale(appLocale);
 
-  const [upcomingEvents, pastEvents, t] = await Promise.all([
+  const [eventsPage, upcomingEvents, pastEvents, t] = await Promise.all([
+    client.fetch(eventsPageQuery).catch(() => null),
     client.fetch(upcomingEventsQuery).catch(() => []),
     client.fetch(pastEventsQuery).catch(() => []),
     getTranslations("EventsPage"),
   ]);
 
+  const heading = pick(eventsPage?.heading, appLocale, t("title"));
+  const intro = pick(eventsPage?.intro, appLocale, "");
+
   return (
     <div className="mx-auto max-w-6xl px-6 py-16">
       <h1 className="text-3xl font-semibold text-navy sm:text-4xl">
-        {t("title")}
+        {heading}
       </h1>
+      {intro ? (
+        <p className="mt-4 max-w-2xl leading-relaxed text-navy/70">{intro}</p>
+      ) : null}
 
       <section className="mt-12">
         <h2 className="text-xl font-semibold text-navy">{t("upcoming")}</h2>

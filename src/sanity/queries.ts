@@ -32,6 +32,60 @@ export const contactPageQuery = defineQuery(`
   }
 `);
 
+export const aboutPageQuery = defineQuery(`
+  *[_type == "aboutPage"][0] {
+    seo,
+    heading,
+    intro,
+    journey,
+    milestones
+  }
+`);
+
+export const rootsPageQuery = defineQuery(`
+  *[_type == "rootsPage"][0] {
+    seo,
+    heading,
+    intro,
+    cards,
+    cta
+  }
+`);
+
+export const culturePageQuery = defineQuery(`
+  *[_type == "culturePage"][0] {
+    seo,
+    heading,
+    intro,
+    cards,
+    viewMoreLabel
+  }
+`);
+
+export const archivePageQuery = defineQuery(`
+  *[_type == "archivePage"][0] {
+    seo,
+    heading,
+    intro
+  }
+`);
+
+export const newsPageQuery = defineQuery(`
+  *[_type == "newsPage"][0] {
+    seo,
+    heading,
+    intro
+  }
+`);
+
+export const eventsPageQuery = defineQuery(`
+  *[_type == "eventsPage"][0] {
+    seo,
+    heading,
+    intro
+  }
+`);
+
 // News
 
 export const allNewsQuery = defineQuery(`

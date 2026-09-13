@@ -1,6 +1,11 @@
+import Image from "next/image";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
+import { client } from "@/sanity/client";
+import { urlForImage } from "@/sanity/image";
 import type { AppLocale } from "@/sanity/locale-content";
+import { pick } from "@/sanity/locale-content";
+import { culturePageQuery } from "@/sanity/queries";
 
 const CARD_KEYS = [
   "dance",
@@ -25,39 +30,72 @@ export default async function CulturePage({
   const appLocale = locale as AppLocale;
   setRequestLocale(appLocale);
 
-  const t = await getTranslations("CulturePage");
+  const [culturePage, t] = await Promise.all([
+    client.fetch(culturePageQuery).catch(() => null),
+    getTranslations("CulturePage"),
+  ]);
+
+  const heading = pick(culturePage?.heading, appLocale, t("title"));
+  const intro = pick(culturePage?.intro, appLocale, t("subtitle"));
+  const viewMoreLabel = pick(
+    culturePage?.viewMoreLabel,
+    appLocale,
+    t("viewMore"),
+  );
+
+  const cards =
+    culturePage?.cards && culturePage.cards.length > 0
+      ? culturePage.cards.map((card) => ({
+          title: pick(card.title, appLocale, ""),
+          description: pick(card.description, appLocale, ""),
+          imageUrl: card.image
+            ? urlForImage(card.image).width(800).height(600).fit("crop").url()
+            : undefined,
+        }))
+      : CARD_KEYS.map((key) => ({
+          title: t(`cards.${key}.title`),
+          description: t(`cards.${key}.description`),
+          imageUrl: undefined,
+        }));
 
   return (
     <div className="mx-auto max-w-6xl px-6 py-16">
       <div className="mx-auto max-w-2xl text-center">
         <h1 className="text-3xl font-semibold text-navy sm:text-4xl">
-          {t("title")}
+          {heading}
         </h1>
-        <p className="mt-4 leading-relaxed text-navy/70">{t("subtitle")}</p>
+        <p className="mt-4 leading-relaxed text-navy/70">{intro}</p>
       </div>
 
       <div className="mt-14 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-        {CARD_KEYS.map((key, index) => (
+        {cards.map((card, index) => (
           <article
-            key={key}
+            key={`${card.title}-${index}`}
             className="group relative flex flex-col overflow-hidden rounded-2xl border border-navy/10 bg-white shadow-sm transition-shadow hover:shadow-lg"
           >
             <div className="relative aspect-4/3 w-full overflow-hidden">
-              <div
-                className={`absolute inset-0 transition-transform duration-500 group-hover:scale-105 ${CARD_GRADIENTS[index]}`}
-              />
+              {card.imageUrl ? (
+                <Image
+                  src={card.imageUrl}
+                  alt=""
+                  fill
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+              ) : (
+                <div
+                  className={`absolute inset-0 transition-transform duration-500 group-hover:scale-105 ${CARD_GRADIENTS[index % CARD_GRADIENTS.length]}`}
+                />
+              )}
             </div>
             <div className="flex flex-1 flex-col gap-2 p-6">
               <h2 className="text-lg font-semibold text-navy">
                 <a href="#" className="after:absolute after:inset-0">
-                  {t(`cards.${key}.title`)}
+                  {card.title}
                 </a>
               </h2>
-              <p className="text-sm text-navy/70">
-                {t(`cards.${key}.description`)}
-              </p>
+              <p className="text-sm text-navy/70">{card.description}</p>
               <span className="mt-auto pt-2 text-sm font-semibold text-gold">
-                {t("viewMore")} →
+                {viewMoreLabel} →
               </span>
             </div>
           </article>

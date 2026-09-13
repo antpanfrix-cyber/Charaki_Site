@@ -7,7 +7,7 @@ import { client } from "@/sanity/client";
 import { urlForImage } from "@/sanity/image";
 import type { AppLocale } from "@/sanity/locale-content";
 import { pick } from "@/sanity/locale-content";
-import { allNewsQuery } from "@/sanity/queries";
+import { allNewsQuery, newsPageQuery } from "@/sanity/queries";
 
 export default async function NewsPage({
   params,
@@ -16,17 +16,24 @@ export default async function NewsPage({
   const appLocale = locale as AppLocale;
   setRequestLocale(appLocale);
 
-  const [news, t, tCategory] = await Promise.all([
+  const [newsPage, news, t, tCategory] = await Promise.all([
+    client.fetch(newsPageQuery).catch(() => null),
     client.fetch(allNewsQuery).catch(() => []),
     getTranslations("NewsPage"),
     getTranslations("NewsCategory"),
   ]);
 
+  const heading = pick(newsPage?.heading, appLocale, t("title"));
+  const intro = pick(newsPage?.intro, appLocale, "");
+
   return (
     <div className="mx-auto max-w-6xl px-6 py-16">
       <h1 className="text-3xl font-semibold text-navy sm:text-4xl">
-        {t("title")}
+        {heading}
       </h1>
+      {intro ? (
+        <p className="mt-4 max-w-2xl leading-relaxed text-navy/70">{intro}</p>
+      ) : null}
 
       {news.length === 0 ? (
         <EmptyState message={t("empty")} />

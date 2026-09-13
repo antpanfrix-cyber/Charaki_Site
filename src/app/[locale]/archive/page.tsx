@@ -4,7 +4,8 @@ import { ArchiveCard } from "@/components/archive/ArchiveCard";
 import { EmptyState } from "@/components/common/EmptyState";
 import { client } from "@/sanity/client";
 import type { AppLocale } from "@/sanity/locale-content";
-import { archiveItemsQuery } from "@/sanity/queries";
+import { pick } from "@/sanity/locale-content";
+import { archiveItemsQuery, archivePageQuery } from "@/sanity/queries";
 
 export default async function ArchivePage({
   params,
@@ -13,17 +14,24 @@ export default async function ArchivePage({
   const appLocale = locale as AppLocale;
   setRequestLocale(appLocale);
 
-  const [items, t, tCategory] = await Promise.all([
+  const [archivePage, items, t, tCategory] = await Promise.all([
+    client.fetch(archivePageQuery).catch(() => null),
     client.fetch(archiveItemsQuery).catch(() => []),
     getTranslations("ArchivePage"),
     getTranslations("ArchiveCategory"),
   ]);
 
+  const heading = pick(archivePage?.heading, appLocale, t("title"));
+  const intro = pick(archivePage?.intro, appLocale, "");
+
   return (
     <div className="mx-auto max-w-6xl px-6 py-16">
       <h1 className="text-3xl font-semibold text-navy sm:text-4xl">
-        {t("title")}
+        {heading}
       </h1>
+      {intro ? (
+        <p className="mt-4 max-w-2xl leading-relaxed text-navy/70">{intro}</p>
+      ) : null}
 
       {items.length === 0 ? (
         <EmptyState message={t("empty")} />
