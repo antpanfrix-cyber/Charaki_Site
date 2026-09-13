@@ -1,28 +1,49 @@
+import Image from "next/image";
 import { getTranslations } from "next-intl/server";
 
 import { navigation } from "@/config/navigation";
 import { Link } from "@/i18n/navigation";
+import { client } from "@/sanity/client";
+import { urlForImage } from "@/sanity/image";
+import { siteSettingsQuery } from "@/sanity/queries";
 
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { MobileMenu } from "./MobileMenu";
 
 export async function Header() {
-  const t = await getTranslations("Navigation");
-  const tHeader = await getTranslations("Header");
+  const [siteSettings, t, tHeader] = await Promise.all([
+    client.fetch(siteSettingsQuery).catch(() => null),
+    getTranslations("Navigation"),
+    getTranslations("Header"),
+  ]);
 
   const navItems = navigation.map((item) => ({
     href: item.href,
     label: t(item.labelKey),
   }));
 
+  const logoUrl = siteSettings?.logo
+    ? urlForImage(siteSettings.logo).height(80).fit("max").url()
+    : undefined;
+
   return (
     <header className="sticky top-0 z-50 border-b border-gold/30 bg-navy text-ivory">
       <div className="relative mx-auto flex max-w-6xl items-center justify-between gap-6 px-6 py-4">
         <Link
           href="/"
-          className="shrink-0 text-lg font-semibold tracking-wide"
+          className="flex shrink-0 items-center gap-2 text-lg font-semibold tracking-wide"
         >
-          {tHeader("siteName")}
+          {logoUrl ? (
+            <Image
+              src={logoUrl}
+              alt={tHeader("siteName")}
+              height={40}
+              width={40}
+              className="h-10 w-auto"
+            />
+          ) : (
+            tHeader("siteName")
+          )}
         </Link>
 
         <nav

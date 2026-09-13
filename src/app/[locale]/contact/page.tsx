@@ -5,7 +5,7 @@ import { ShareStoryForm } from "@/components/forms/ShareStoryForm";
 import { client } from "@/sanity/client";
 import type { AppLocale } from "@/sanity/locale-content";
 import { pick } from "@/sanity/locale-content";
-import { contactPageQuery } from "@/sanity/queries";
+import { contactPageQuery, siteSettingsQuery } from "@/sanity/queries";
 
 export default async function ContactPage({
   params,
@@ -14,8 +14,9 @@ export default async function ContactPage({
   const appLocale = locale as AppLocale;
   setRequestLocale(appLocale);
 
-  const [contactPage, t] = await Promise.all([
+  const [contactPage, siteSettings, t] = await Promise.all([
     client.fetch(contactPageQuery).catch(() => null),
+    client.fetch(siteSettingsQuery).catch(() => null),
     getTranslations("ContactPage"),
   ]);
 
@@ -23,6 +24,8 @@ export default async function ContactPage({
   const intro = pick(contactPage?.intro, appLocale, t("introFallback"));
   const address = pick(contactPage?.address, appLocale, t("addressFallback"));
   const mapEmbedUrl = contactPage?.mapEmbedUrl;
+  const email = siteSettings?.email || "";
+  const phone = siteSettings?.phone || "";
 
   return (
     <div className="mx-auto max-w-6xl px-6 py-16">
@@ -35,6 +38,27 @@ export default async function ContactPage({
           <p className="mt-4 text-sm font-semibold tracking-wide text-gold uppercase">
             {address}
           </p>
+
+          {email || phone ? (
+            <div className="mt-4 flex flex-col gap-1 text-navy/80">
+              {email ? (
+                <a
+                  href={`mailto:${email}`}
+                  className="transition-colors hover:text-gold"
+                >
+                  {email}
+                </a>
+              ) : null}
+              {phone ? (
+                <a
+                  href={`tel:${phone}`}
+                  className="transition-colors hover:text-gold"
+                >
+                  {phone}
+                </a>
+              ) : null}
+            </div>
+          ) : null}
 
           {mapEmbedUrl ? (
             <div className="mt-8 aspect-video w-full overflow-hidden rounded-2xl border border-navy/10">
