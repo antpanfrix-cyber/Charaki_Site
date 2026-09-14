@@ -194,6 +194,9 @@
       }
     }
   },
+  "TopicPage": {
+    "untitledFallback": "Untitled"
+  },
   "Metadata": {
     "title": "Cultural Association of Mikrasians of Limenaria \"To Charaki\"",
     "description": "The official website of the Cultural Association of Mikrasians of Limenaria \"To Charaki\" — preserving the memory, traditions, and heritage of the Asia Minor Greek refugee community in Limenaria, Thasos.",
