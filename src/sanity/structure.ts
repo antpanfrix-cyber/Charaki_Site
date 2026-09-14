@@ -13,10 +13,16 @@ export const SINGLETON_TYPES = new Set([
   "eventsPage",
 ]);
 
-// Singletons already have a hand-written listItem below, so they must be
-// filtered out of the generic, auto-generated document type list to avoid
-// showing up twice in the sidebar.
-const CUSTOM_LIST_TYPES = new Set([...SINGLETON_TYPES]);
+// Singletons and "topic" already have a hand-written listItem below, so they
+// must be filtered out of the generic, auto-generated document type list to
+// avoid showing up twice in the sidebar.
+const CUSTOM_LIST_TYPES = new Set([...SINGLETON_TYPES, "topic"]);
+
+const TOPIC_CATEGORY_GROUPS = [
+  { id: "roots", title: "Ρίζες" },
+  { id: "culture", title: "Πολιτισμός & Παράδοση" },
+  { id: "about", title: "Σχετικά με Εμάς" },
+];
 
 function singletonListItem(
   S: Parameters<StructureResolver>[0],
@@ -51,6 +57,27 @@ export const structure: StructureResolver = (S) =>
               singletonListItem(S, "newsPage", "Νέα"),
               singletonListItem(S, "eventsPage", "Εκδηλώσεις"),
             ]),
+        ),
+      S.divider(),
+      S.listItem()
+        .title("Θεματικές Σελίδες")
+        .id("topics")
+        .child(
+          S.list()
+            .title("Θεματικές Σελίδες")
+            .items(
+              TOPIC_CATEGORY_GROUPS.map((group) =>
+                S.listItem()
+                  .title(group.title)
+                  .id(`topics-${group.id}`)
+                  .child(
+                    S.documentTypeList("topic")
+                      .title(group.title)
+                      .filter('_type == "topic" && category == $category')
+                      .params({ category: group.id }),
+                  ),
+              ),
+            ),
         ),
       S.divider(),
       ...S.documentTypeListItems().filter(

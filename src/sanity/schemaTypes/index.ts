@@ -7,6 +7,7 @@ import { contactPage } from "./contactPage";
 import { culturePage } from "./culturePage";
 import { event } from "./event";
 import { eventsPage } from "./eventsPage";
+import { gallery } from "./objects/gallery";
 import { homePage } from "./homePage";
 import { localeBlockContent } from "./objects/localeBlockContent";
 import { localeString } from "./objects/localeString";
@@ -17,6 +18,8 @@ import { newsPage } from "./newsPage";
 import { pageSection } from "./objects/pageSection";
 import { rootsPage } from "./rootsPage";
 import { siteSettings } from "./siteSettings";
+import { topic } from "./topic";
+import { videoEmbed } from "./objects/videoEmbed";
 
 export const schemaTypes: SchemaTypeDefinition[] = [
   // Reusable localized objects
@@ -25,6 +28,8 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   localeTextShort,
   localeBlockContent,
   pageSection,
+  videoEmbed,
+  gallery,
   // Singletons
   homePage,
   siteSettings,
@@ -39,4 +44,5 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   news,
   event,
   archiveItem,
+  topic,
 ];
