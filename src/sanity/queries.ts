@@ -1,5 +1,9 @@
 import { defineQuery } from "next-sanity";
 
+// Shared by every card/milestone projection below, so a topic reference is
+// always dereferenced the same way.
+const TOPIC_REF_PROJECTION = `"topic": topic->{ title, excerpt, coverImage, "slug": slug.current }`;
+
 // Singletons
 
 export const siteSettingsQuery = defineQuery(`
@@ -38,7 +42,12 @@ export const aboutPageQuery = defineQuery(`
     heading,
     intro,
     journey,
-    milestones
+    milestones[]{
+      title,
+      description,
+      link,
+      ${TOPIC_REF_PROJECTION}
+    }
   }
 `);
 
@@ -47,7 +56,13 @@ export const rootsPageQuery = defineQuery(`
     seo,
     heading,
     intro,
-    cards,
+    cards[]{
+      title,
+      description,
+      image,
+      link,
+      ${TOPIC_REF_PROJECTION}
+    },
     sections,
     cta
   }
@@ -58,7 +73,13 @@ export const culturePageQuery = defineQuery(`
     seo,
     heading,
     intro,
-    cards,
+    cards[]{
+      title,
+      description,
+      image,
+      link,
+      ${TOPIC_REF_PROJECTION}
+    },
     viewMoreLabel
   }
 `);
@@ -175,4 +196,20 @@ export const archiveItemsQuery = defineQuery(`
     externalUrl,
     description
   }
+`);
+
+// Topics
+
+export const topicBySlugQuery = defineQuery(`
+  *[_type == "topic" && slug.current == $slug][0] {
+    title,
+    category,
+    excerpt,
+    coverImage,
+    body
+  }
+`);
+
+export const topicSlugsQuery = defineQuery(`
+  *[_type == "topic" && defined(slug.current)].slug.current
 `);

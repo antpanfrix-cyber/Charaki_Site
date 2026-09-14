@@ -166,9 +166,17 @@ export type LocaleBlockContent = {
         media?: unknown;
         hotspot?: SanityImageHotspot;
         crop?: SanityImageCrop;
+        alt?: string;
+        caption?: string;
         _type: "image";
         _key: string;
       }
+    | ({
+        _key: string;
+      } & VideoEmbed)
+    | ({
+        _key: string;
+      } & Gallery)
   >;
   en?: Array<
     | {
@@ -195,9 +203,17 @@ export type LocaleBlockContent = {
         media?: unknown;
         hotspot?: SanityImageHotspot;
         crop?: SanityImageCrop;
+        alt?: string;
+        caption?: string;
         _type: "image";
         _key: string;
       }
+    | ({
+        _key: string;
+      } & VideoEmbed)
+    | ({
+        _key: string;
+      } & Gallery)
   >;
 };
 
@@ -255,27 +271,12 @@ export type CulturePage = {
   };
   heading?: LocaleString;
   intro?: LocaleText;
-  cards?: Array<{
-    title: LocaleString;
-    description?: LocaleTextShort;
-    image?: {
-      asset?: SanityImageAssetReference;
-      media?: unknown;
-      hotspot?: SanityImageHotspot;
-      crop?: SanityImageCrop;
-      _type: "image";
-    };
-    link?: string;
-    _type: "card";
-    _key: string;
-  }>;
+  cards?: Array<
+    {
+      _key: string;
+    } & Card
+  >;
   viewMoreLabel?: LocaleString;
-};
-
-export type LocaleTextShort = {
-  _type: "localeTextShort";
-  el: string;
-  en?: string;
 };
 
 export type RootsPage = {
@@ -290,20 +291,11 @@ export type RootsPage = {
   };
   heading?: LocaleString;
   intro?: LocaleString;
-  cards?: Array<{
-    title: LocaleString;
-    description?: LocaleTextShort;
-    image?: {
-      asset?: SanityImageAssetReference;
-      media?: unknown;
-      hotspot?: SanityImageHotspot;
-      crop?: SanityImageCrop;
-      _type: "image";
-    };
-    link?: string;
-    _type: "card";
-    _key: string;
-  }>;
+  cards?: Array<
+    {
+      _key: string;
+    } & Card
+  >;
   sections?: Array<
     {
       _key: string;
@@ -313,6 +305,13 @@ export type RootsPage = {
     label?: LocaleString;
     href?: string;
   };
+};
+
+export type TopicReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "topic";
 };
 
 export type AboutPage = {
@@ -335,9 +334,16 @@ export type AboutPage = {
     title: LocaleString;
     description?: LocaleTextShort;
     link?: string;
+    topic?: TopicReference;
     _type: "milestone";
     _key: string;
   }>;
+};
+
+export type LocaleTextShort = {
+  _type: "localeTextShort";
+  el: string;
+  en?: string;
 };
 
 export type ContactPage = {
@@ -418,6 +424,61 @@ export type HomePage = {
     text?: LocaleBlockContent;
     ctaLabel?: LocaleString;
   };
+};
+
+export type Card = {
+  _type: "card";
+  title: LocaleString;
+  description?: LocaleTextShort;
+  image?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  link?: string;
+  topic?: TopicReference;
+};
+
+export type Topic = {
+  _id: string;
+  _type: "topic";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title: LocaleString;
+  slug: Slug;
+  category: "roots" | "culture" | "about";
+  excerpt?: LocaleTextShort;
+  coverImage?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  body?: LocaleBlockContent;
+};
+
+export type Gallery = {
+  _type: "gallery";
+  images: Array<{
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    caption?: string;
+    _type: "image";
+    _key: string;
+  }>;
+};
+
+export type VideoEmbed = {
+  _type: "videoEmbed";
+  url: string;
+  caption?: string;
 };
 
 export type PageSection = {
@@ -546,12 +607,17 @@ export type AllSanitySchemaTypes =
   | NewsPage
   | ArchivePage
   | CulturePage
-  | LocaleTextShort
   | RootsPage
+  | TopicReference
   | AboutPage
+  | LocaleTextShort
   | ContactPage
   | SiteSettings
   | HomePage
+  | Card
+  | Topic
+  | Gallery
+  | VideoEmbed
   | PageSection
   | SanityImagePaletteSwatch
   | SanityImagePalette
@@ -638,7 +704,7 @@ export type ContactPageQueryResult = {
 
 // Source: src/sanity/queries.ts
 // Variable: aboutPageQuery
-// Query: *[_type == "aboutPage"][0] {    seo,    heading,    intro,    journey,    milestones  }
+// Query: *[_type == "aboutPage"][0] {    seo,    heading,    intro,    journey,    milestones[]{      title,      description,      link,      "topic": topic->{ title, excerpt, coverImage, "slug": slug.current }    }  }
 export type AboutPageQueryResult = {
   seo: {
     title?: LocaleString;
@@ -652,16 +718,26 @@ export type AboutPageQueryResult = {
   } | null;
   milestones: Array<{
     title: LocaleString;
-    description?: LocaleTextShort;
-    link?: string;
-    _type: "milestone";
-    _key: string;
+    description: LocaleTextShort | null;
+    link: string | null;
+    topic: {
+      title: LocaleString;
+      excerpt: LocaleTextShort | null;
+      coverImage: {
+        asset?: SanityImageAssetReference;
+        media?: unknown;
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        _type: "image";
+      } | null;
+      slug: string;
+    } | null;
   }> | null;
 } | null;
 
 // Source: src/sanity/queries.ts
 // Variable: rootsPageQuery
-// Query: *[_type == "rootsPage"][0] {    seo,    heading,    intro,    cards,    sections,    cta  }
+// Query: *[_type == "rootsPage"][0] {    seo,    heading,    intro,    cards[]{      title,      description,      image,      link,      "topic": topic->{ title, excerpt, coverImage, "slug": slug.current }    },    sections,    cta  }
 export type RootsPageQueryResult = {
   seo: {
     title?: LocaleString;
@@ -671,17 +747,27 @@ export type RootsPageQueryResult = {
   intro: LocaleString | null;
   cards: Array<{
     title: LocaleString;
-    description?: LocaleTextShort;
-    image?: {
+    description: LocaleTextShort | null;
+    image: {
       asset?: SanityImageAssetReference;
       media?: unknown;
       hotspot?: SanityImageHotspot;
       crop?: SanityImageCrop;
       _type: "image";
-    };
-    link?: string;
-    _type: "card";
-    _key: string;
+    } | null;
+    link: string | null;
+    topic: {
+      title: LocaleString;
+      excerpt: LocaleTextShort | null;
+      coverImage: {
+        asset?: SanityImageAssetReference;
+        media?: unknown;
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        _type: "image";
+      } | null;
+      slug: string;
+    } | null;
   }> | null;
   sections: Array<
     {
@@ -696,7 +782,7 @@ export type RootsPageQueryResult = {
 
 // Source: src/sanity/queries.ts
 // Variable: culturePageQuery
-// Query: *[_type == "culturePage"][0] {    seo,    heading,    intro,    cards,    viewMoreLabel  }
+// Query: *[_type == "culturePage"][0] {    seo,    heading,    intro,    cards[]{      title,      description,      image,      link,      "topic": topic->{ title, excerpt, coverImage, "slug": slug.current }    },    viewMoreLabel  }
 export type CulturePageQueryResult = {
   seo: {
     title?: LocaleString;
@@ -706,17 +792,27 @@ export type CulturePageQueryResult = {
   intro: LocaleText | null;
   cards: Array<{
     title: LocaleString;
-    description?: LocaleTextShort;
-    image?: {
+    description: LocaleTextShort | null;
+    image: {
       asset?: SanityImageAssetReference;
       media?: unknown;
       hotspot?: SanityImageHotspot;
       crop?: SanityImageCrop;
       _type: "image";
-    };
-    link?: string;
-    _type: "card";
-    _key: string;
+    } | null;
+    link: string | null;
+    topic: {
+      title: LocaleString;
+      excerpt: LocaleTextShort | null;
+      coverImage: {
+        asset?: SanityImageAssetReference;
+        media?: unknown;
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        _type: "image";
+      } | null;
+      slug: string;
+    } | null;
   }> | null;
   viewMoreLabel: LocaleString | null;
 } | null;
@@ -895,6 +991,28 @@ export type ArchiveItemsQueryResult = Array<{
   description: LocaleText | null;
 }>;
 
+// Source: src/sanity/queries.ts
+// Variable: topicBySlugQuery
+// Query: *[_type == "topic" && slug.current == $slug][0] {    title,    category,    excerpt,    coverImage,    body  }
+export type TopicBySlugQueryResult = {
+  title: LocaleString;
+  category: "about" | "culture" | "roots";
+  excerpt: LocaleTextShort | null;
+  coverImage: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  } | null;
+  body: LocaleBlockContent | null;
+} | null;
+
+// Source: src/sanity/queries.ts
+// Variable: topicSlugsQuery
+// Query: *[_type == "topic" && defined(slug.current)].slug.current
+export type TopicSlugsQueryResult = Array<string>;
+
 // Query TypeMap
 import "@sanity/client";
 declare module "@sanity/client" {
@@ -902,9 +1020,9 @@ declare module "@sanity/client" {
     '\n  *[_type == "siteSettings"][0] {\n    siteTitle,\n    logo,\n    seo,\n    email,\n    phone,\n    address,\n    socialLinks\n  }\n': SiteSettingsQueryResult;
     '\n  *[_type == "homePage"][0] {\n    seo,\n    hero,\n    welcome\n  }\n': HomePageQueryResult;
     '\n  *[_type == "contactPage"][0] {\n    seo,\n    heading,\n    intro,\n    address,\n    mapEmbedUrl\n  }\n': ContactPageQueryResult;
-    '\n  *[_type == "aboutPage"][0] {\n    seo,\n    heading,\n    intro,\n    journey,\n    milestones\n  }\n': AboutPageQueryResult;
-    '\n  *[_type == "rootsPage"][0] {\n    seo,\n    heading,\n    intro,\n    cards,\n    sections,\n    cta\n  }\n': RootsPageQueryResult;
-    '\n  *[_type == "culturePage"][0] {\n    seo,\n    heading,\n    intro,\n    cards,\n    viewMoreLabel\n  }\n': CulturePageQueryResult;
+    '\n  *[_type == "aboutPage"][0] {\n    seo,\n    heading,\n    intro,\n    journey,\n    milestones[]{\n      title,\n      description,\n      link,\n      "topic": topic->{ title, excerpt, coverImage, "slug": slug.current }\n    }\n  }\n': AboutPageQueryResult;
+    '\n  *[_type == "rootsPage"][0] {\n    seo,\n    heading,\n    intro,\n    cards[]{\n      title,\n      description,\n      image,\n      link,\n      "topic": topic->{ title, excerpt, coverImage, "slug": slug.current }\n    },\n    sections,\n    cta\n  }\n': RootsPageQueryResult;
+    '\n  *[_type == "culturePage"][0] {\n    seo,\n    heading,\n    intro,\n    cards[]{\n      title,\n      description,\n      image,\n      link,\n      "topic": topic->{ title, excerpt, coverImage, "slug": slug.current }\n    },\n    viewMoreLabel\n  }\n': CulturePageQueryResult;
     '\n  *[_type == "archivePage"][0] {\n    seo,\n    heading,\n    intro\n  }\n': ArchivePageQueryResult;
     '\n  *[_type == "newsPage"][0] {\n    seo,\n    heading,\n    intro\n  }\n': NewsPageQueryResult;
     '\n  *[_type == "eventsPage"][0] {\n    seo,\n    heading,\n    intro\n  }\n': EventsPageQueryResult;
@@ -916,5 +1034,7 @@ declare module "@sanity/client" {
     '\n  *[_type == "event" && slug.current == $slug][0] {\n    title,\n    date,\n    time,\n    location,\n    image,\n    description,\n    isUpcoming\n  }\n': EventBySlugQueryResult;
     '\n  *[_type == "event" && defined(slug.current)].slug.current\n': EventSlugsQueryResult;
     '\n  *[_type == "archiveItem"] | order(year desc) {\n    _id,\n    title,\n    category,\n    year,\n    location,\n    person,\n    image,\n    "file": file.asset->{ url, originalFilename, mimeType },\n    externalUrl,\n    description\n  }\n': ArchiveItemsQueryResult;
+    '\n  *[_type == "topic" && slug.current == $slug][0] {\n    title,\n    category,\n    excerpt,\n    coverImage,\n    body\n  }\n': TopicBySlugQueryResult;
+    '\n  *[_type == "topic" && defined(slug.current)].slug.current\n': TopicSlugsQueryResult;
   }
 }

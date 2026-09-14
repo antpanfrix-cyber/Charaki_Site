@@ -3,6 +3,7 @@ import type { SchemaTypeDefinition } from "sanity";
 import { aboutPage } from "./aboutPage";
 import { archiveItem } from "./archiveItem";
 import { archivePage } from "./archivePage";
+import { card } from "./objects/card";
 import { contactPage } from "./contactPage";
 import { culturePage } from "./culturePage";
 import { event } from "./event";
@@ -30,6 +31,7 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   pageSection,
   videoEmbed,
   gallery,
+  card,
   // Singletons
   homePage,
   siteSettings,

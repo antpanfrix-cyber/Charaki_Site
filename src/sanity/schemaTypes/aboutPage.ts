@@ -1,5 +1,6 @@
 import { defineField, defineType } from "sanity";
 
+import { topicReferenceFilter } from "./topic";
 import { maxLocaleLength } from "./validation";
 
 export const aboutPage = defineType({
@@ -75,11 +76,28 @@ export const aboutPage = defineType({
               title: "Σύνδεσμος",
               type: "string",
               description:
-                "Προαιρετικός. Εδώ μπαίνει η διεύθυνση της σελίδας με το πλήρες κείμενο.",
+                "Προαιρετικός. Αγνοείται αν έχει επιλεγεί Θεματική Σελίδα παρακάτω — τότε ο σταθμός οδηγεί εκεί.",
+            }),
+            defineField({
+              name: "topic",
+              title: "Θεματική Σελίδα",
+              type: "reference",
+              to: [{ type: "topic" }],
+              options: { filter: topicReferenceFilter },
+              description:
+                "Προαιρετικό. Αν επιλεγεί, ο σταθμός οδηγεί στην πλήρη Θεματική Σελίδα και παίρνει τίτλο/κείμενο από εκεί (τα παραπάνω πεδία λειτουργούν ως εφεδρικά).",
             }),
           ],
           preview: {
-            select: { title: "title.el", subtitle: "description.el" },
+            select: {
+              title: "title.el",
+              subtitle: "description.el",
+              topicTitle: "topic.title.el",
+            },
+            prepare: ({ title, subtitle, topicTitle }) => ({
+              title: title || topicTitle || "Χωρίς τίτλο",
+              subtitle: topicTitle ? `→ ${topicTitle}` : subtitle,
+            }),
           },
         },
       ],

@@ -1,7 +1,5 @@
 import { defineField, defineType } from "sanity";
 
-import { maxLocaleLength } from "./validation";
-
 export const rootsPage = defineType({
   name: "rootsPage",
   title: "Σελίδα Ρίζες",
@@ -36,49 +34,7 @@ export const rootsPage = defineType({
       description:
         "Η σειρά εδώ καθορίζει τη σειρά εμφάνισης των καρτών στη σελίδα.",
       type: "array",
-      of: [
-        {
-          type: "object",
-          name: "card",
-          fields: [
-            defineField({
-              name: "title",
-              title: "Τίτλος",
-              type: "localeString",
-              validation: (rule) => rule.required().custom(maxLocaleLength(60)),
-            }),
-            defineField({
-              name: "description",
-              title: "Περιγραφή",
-              type: "localeTextShort",
-              description:
-                "Σύντομο εισαγωγικό κείμενο, έως 200 χαρακτήρες. Για εκτενές κείμενο χρησιμοποίησε τις Ενότητες Κειμένου παρακάτω.",
-            }),
-            defineField({
-              name: "image",
-              title: "Εικόνα",
-              type: "image",
-              options: { hotspot: true },
-              description:
-                "Προαιρετική. Αν δεν προστεθεί εικόνα, η κάρτα εμφανίζεται με έγχρωμο φόντο.",
-            }),
-            defineField({
-              name: "link",
-              title: "Σύνδεσμος",
-              type: "string",
-              description:
-                "Προαιρετικός. Εδώ μπαίνει η διεύθυνση της σελίδας με το πλήρες κείμενο (π.χ. /roots#asia-minor ή πλήρες εξωτερικό URL).",
-            }),
-          ],
-          preview: {
-            select: {
-              title: "title.el",
-              subtitle: "description.el",
-              media: "image",
-            },
-          },
-        },
-      ],
+      of: [{ type: "card" }],
     }),
     defineField({
       name: "sections",
