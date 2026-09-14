@@ -1,5 +1,7 @@
 import { defineField, defineType } from "sanity";
 
+import { maxLocaleLength } from "./validation";
+
 export const rootsPage = defineType({
   name: "rootsPage",
   title: "Σελίδα Ρίζες",
@@ -43,7 +45,7 @@ export const rootsPage = defineType({
               name: "title",
               title: "Τίτλος",
               type: "localeString",
-              validation: (rule) => rule.required().max(60),
+              validation: (rule) => rule.required().custom(maxLocaleLength(60)),
             }),
             defineField({
               name: "description",
