@@ -1,4 +1,5 @@
 import { PortableText } from "@portabletext/react";
+import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
@@ -17,6 +18,28 @@ export async function generateStaticParams() {
     .fetch(newsSlugsQuery, {}, { next: { tags: ["sanity", "news"] } })
     .catch(() => []);
   return slugs.map((slug) => ({ slug }));
+}
+
+export async function generateMetadata({
+  params,
+}: PageProps<"/[locale]/news/[slug]">): Promise<Metadata> {
+  const { slug, locale } = await params;
+  const appLocale = locale as AppLocale;
+
+  const article = await client
+    .fetch(newsBySlugQuery, { slug }, { next: { tags: ["sanity", "news"] } })
+    .catch(() => null);
+
+  if (!article) return {};
+
+  const title = pick(article.title, appLocale, "");
+  const description = pick(article.excerpt, appLocale, "") || undefined;
+
+  return {
+    title,
+    description,
+    openGraph: { title, description },
+  };
 }
 
 export default async function NewsArticlePage({
