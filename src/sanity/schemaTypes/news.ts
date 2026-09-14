@@ -18,8 +18,8 @@ export const news = defineType({
         "Δημιουργείται αυτόματα από τον αγγλικό τίτλο και χρησιμοποιείται στη διεύθυνση URL της σελίδας (π.χ. /news/onoma-arthrou). Πατήστε 'Generate' για να το δημιουργήσετε ή να το ανανεώσετε.",
       options: {
         source: (doc) => {
-          const title = doc.title as { en?: string } | undefined;
-          return title?.en ?? "";
+          const title = doc.title as { el?: string; en?: string } | undefined;
+          return title?.en || title?.el || "";
         },
         maxLength: 96,
       },

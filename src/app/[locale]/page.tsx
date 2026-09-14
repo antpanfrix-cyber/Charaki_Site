@@ -6,7 +6,7 @@ import { getPlainTextExcerpt } from "@/lib/portable-text";
 import { client } from "@/sanity/client";
 import { urlForImage } from "@/sanity/image";
 import type { AppLocale } from "@/sanity/locale-content";
-import { pick } from "@/sanity/locale-content";
+import { pick, pickBlocks } from "@/sanity/locale-content";
 import { homePageQuery } from "@/sanity/queries";
 
 export const revalidate = 60;
@@ -62,7 +62,7 @@ export default async function Home({ params }: PageProps<"/[locale]">) {
           t("welcomeHeadingFallback"),
         )}
         text={
-          getPlainTextExcerpt(welcome?.text?.[appLocale], 600) ||
+          getPlainTextExcerpt(pickBlocks(welcome?.text, appLocale), 600) ||
           t("welcomeTextFallback")
         }
         ctaLabel={pick(welcome?.ctaLabel, appLocale, t("welcomeCtaFallback"))}

@@ -10,12 +10,15 @@ export const localeBlockContent = defineType({
       title: "Ελληνικά",
       type: "array",
       of: [{ type: "block" }, { type: "image" }],
+      validation: (rule) => rule.required(),
     }),
     defineField({
       name: "en",
       title: "English",
       type: "array",
       of: [{ type: "block" }, { type: "image" }],
+      description:
+        "Προαιρετικό. Αν μείνει κενό, εμφανίζεται το ελληνικό κείμενο.",
     }),
   ],
 });

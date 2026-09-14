@@ -65,7 +65,7 @@ export type ArchiveItem = {
 export type LocaleText = {
   _type: "localeText";
   el: string;
-  en: string;
+  en?: string;
 };
 
 export type SanityImageCrop = {
@@ -87,7 +87,7 @@ export type SanityImageHotspot = {
 export type LocaleString = {
   _type: "localeString";
   el: string;
-  en: string;
+  en?: string;
 };
 
 export type Event = {
@@ -141,7 +141,7 @@ export type News = {
 
 export type LocaleBlockContent = {
   _type: "localeBlockContent";
-  el?: Array<
+  el: Array<
     | {
         children?: Array<{
           marks?: Array<string>;
@@ -275,7 +275,7 @@ export type CulturePage = {
 export type LocaleTextShort = {
   _type: "localeTextShort";
   el: string;
-  en: string;
+  en?: string;
 };
 
 export type RootsPage = {

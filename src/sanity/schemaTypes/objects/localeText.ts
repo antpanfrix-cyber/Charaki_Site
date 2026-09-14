@@ -17,7 +17,8 @@ export const localeText = defineType({
       title: "English",
       type: "text",
       rows: 4,
-      validation: (rule) => rule.required(),
+      description:
+        "Προαιρετικό. Αν μείνει κενό, εμφανίζεται το ελληνικό κείμενο.",
     }),
   ],
 });

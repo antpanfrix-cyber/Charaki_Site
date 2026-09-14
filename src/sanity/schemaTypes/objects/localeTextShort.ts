@@ -19,7 +19,9 @@ export const localeTextShort = defineType({
       title: "English",
       type: "text",
       rows: 3,
-      validation: (rule) => rule.required().max(200),
+      description:
+        "Προαιρετικό. Αν μείνει κενό, εμφανίζεται το ελληνικό κείμενο.",
+      validation: (rule) => rule.max(200),
     }),
   ],
 });

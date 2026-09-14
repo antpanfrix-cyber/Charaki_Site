@@ -15,7 +15,8 @@ export const localeString = defineType({
       name: "en",
       title: "English",
       type: "string",
-      validation: (rule) => rule.required(),
+      description:
+        "Προαιρετικό. Αν μείνει κενό, εμφανίζεται το ελληνικό κείμενο.",
     }),
   ],
 });

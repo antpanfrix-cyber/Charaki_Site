@@ -6,7 +6,7 @@ import { portableTextComponents } from "@/components/media/portable-text-compone
 import { client } from "@/sanity/client";
 import { urlForImage } from "@/sanity/image";
 import type { AppLocale } from "@/sanity/locale-content";
-import { pick } from "@/sanity/locale-content";
+import { pick, pickBlocks } from "@/sanity/locale-content";
 import { rootsPageQuery } from "@/sanity/queries";
 
 const CARD_KEYS = [
@@ -120,7 +120,7 @@ export default async function RootsPage({
         <div className="mx-auto mt-20 flex max-w-3xl flex-col gap-16">
           {sections.map((section, index) => {
             const sectionTitle = pick(section.title, appLocale, "");
-            const body = section.body?.[appLocale];
+            const body = pickBlocks(section.body, appLocale);
             const sectionImageUrl = section.image
               ? urlForImage(section.image)
                   .width(1200)

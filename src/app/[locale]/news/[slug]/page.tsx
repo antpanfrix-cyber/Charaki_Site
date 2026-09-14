@@ -7,7 +7,7 @@ import { portableTextComponents } from "@/components/media/portable-text-compone
 import { client } from "@/sanity/client";
 import { urlForImage } from "@/sanity/image";
 import type { AppLocale } from "@/sanity/locale-content";
-import { pick } from "@/sanity/locale-content";
+import { pick, pickBlocks } from "@/sanity/locale-content";
 import { newsBySlugQuery, newsSlugsQuery } from "@/sanity/queries";
 
 export const revalidate = 60;
@@ -42,7 +42,7 @@ export default async function NewsArticlePage({
     ? urlForImage(article.image).width(1600).height(900).fit("crop").url()
     : undefined;
 
-  const body = article.content?.[appLocale];
+  const body = pickBlocks(article.content, appLocale);
   const excerpt = pick(article.excerpt, appLocale, "");
 
   return (
