@@ -7,6 +7,8 @@ import type { AppLocale } from "@/sanity/locale-content";
 import { pick } from "@/sanity/locale-content";
 import { archiveItemsQuery, archivePageQuery } from "@/sanity/queries";
 
+export const revalidate = 60;
+
 export default async function ArchivePage({
   params,
 }: PageProps<"/[locale]/archive">) {
@@ -15,8 +17,20 @@ export default async function ArchivePage({
   setRequestLocale(appLocale);
 
   const [archivePage, items, t, tCategory] = await Promise.all([
-    client.fetch(archivePageQuery).catch(() => null),
-    client.fetch(archiveItemsQuery).catch(() => []),
+    client
+      .fetch(
+        archivePageQuery,
+        {},
+        { next: { tags: ["sanity", "archivePage"] } },
+      )
+      .catch(() => null),
+    client
+      .fetch(
+        archiveItemsQuery,
+        {},
+        { next: { tags: ["sanity", "archiveItem"] } },
+      )
+      .catch(() => []),
     getTranslations("ArchivePage"),
     getTranslations("ArchiveCategory"),
   ]);

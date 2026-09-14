@@ -40,7 +40,13 @@ export async function generateMetadata({
   const appLocale = locale as AppLocale;
 
   const [siteSettings, t] = await Promise.all([
-    client.fetch(siteSettingsQuery).catch(() => null),
+    client
+      .fetch(
+        siteSettingsQuery,
+        {},
+        { next: { tags: ["sanity", "siteSettings"] } },
+      )
+      .catch(() => null),
     getTranslations({ locale: appLocale, namespace: "Metadata" }),
   ]);
 

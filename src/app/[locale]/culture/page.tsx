@@ -23,6 +23,8 @@ const CARD_GRADIENTS = [
   "bg-gradient-to-b from-navy via-navy/90 to-gold/50",
 ];
 
+export const revalidate = 60;
+
 export default async function CulturePage({
   params,
 }: PageProps<"/[locale]/culture">) {
@@ -31,7 +33,13 @@ export default async function CulturePage({
   setRequestLocale(appLocale);
 
   const [culturePage, t] = await Promise.all([
-    client.fetch(culturePageQuery).catch(() => null),
+    client
+      .fetch(
+        culturePageQuery,
+        {},
+        { next: { tags: ["sanity", "culturePage"] } },
+      )
+      .catch(() => null),
     getTranslations("CulturePage"),
   ]);
 

@@ -9,6 +9,8 @@ import type { AppLocale } from "@/sanity/locale-content";
 import { pick } from "@/sanity/locale-content";
 import { homePageQuery } from "@/sanity/queries";
 
+export const revalidate = 60;
+
 export default async function Home({ params }: PageProps<"/[locale]">) {
   const { locale } = await params;
   const appLocale = locale as AppLocale;
@@ -17,7 +19,9 @@ export default async function Home({ params }: PageProps<"/[locale]">) {
   // Sanity may be unreachable (no project connected yet, network hiccup, etc.)
   // — degrade to the next-intl fallback strings below rather than failing the render.
   const [homePage, t] = await Promise.all([
-    client.fetch(homePageQuery).catch(() => null),
+    client
+      .fetch(homePageQuery, {}, { next: { tags: ["sanity", "homePage"] } })
+      .catch(() => null),
     getTranslations("HomePage"),
   ]);
 

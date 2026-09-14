@@ -8,8 +8,12 @@ import type { AppLocale } from "@/sanity/locale-content";
 import { pick } from "@/sanity/locale-content";
 import { eventBySlugQuery, eventSlugsQuery } from "@/sanity/queries";
 
+export const revalidate = 60;
+
 export async function generateStaticParams() {
-  const slugs = await client.fetch(eventSlugsQuery).catch(() => []);
+  const slugs = await client
+    .fetch(eventSlugsQuery, {}, { next: { tags: ["sanity", "event"] } })
+    .catch(() => []);
   return slugs.map((slug) => ({ slug }));
 }
 
@@ -21,7 +25,9 @@ export default async function EventDetailPage({
   setRequestLocale(appLocale);
 
   const [event, t] = await Promise.all([
-    client.fetch(eventBySlugQuery, { slug }).catch(() => null),
+    client
+      .fetch(eventBySlugQuery, { slug }, { next: { tags: ["sanity", "event"] } })
+      .catch(() => null),
     getTranslations("EventsPage"),
   ]);
 

@@ -9,6 +9,8 @@ import type { AppLocale } from "@/sanity/locale-content";
 import { pick } from "@/sanity/locale-content";
 import { allNewsQuery, newsPageQuery } from "@/sanity/queries";
 
+export const revalidate = 60;
+
 export default async function NewsPage({
   params,
 }: PageProps<"/[locale]/news">) {
@@ -17,8 +19,12 @@ export default async function NewsPage({
   setRequestLocale(appLocale);
 
   const [newsPage, news, t, tCategory] = await Promise.all([
-    client.fetch(newsPageQuery).catch(() => null),
-    client.fetch(allNewsQuery).catch(() => []),
+    client
+      .fetch(newsPageQuery, {}, { next: { tags: ["sanity", "newsPage"] } })
+      .catch(() => null),
+    client
+      .fetch(allNewsQuery, {}, { next: { tags: ["sanity", "news"] } })
+      .catch(() => []),
     getTranslations("NewsPage"),
     getTranslations("NewsCategory"),
   ]);

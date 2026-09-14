@@ -10,8 +10,12 @@ import type { AppLocale } from "@/sanity/locale-content";
 import { pick } from "@/sanity/locale-content";
 import { newsBySlugQuery, newsSlugsQuery } from "@/sanity/queries";
 
+export const revalidate = 60;
+
 export async function generateStaticParams() {
-  const slugs = await client.fetch(newsSlugsQuery).catch(() => []);
+  const slugs = await client
+    .fetch(newsSlugsQuery, {}, { next: { tags: ["sanity", "news"] } })
+    .catch(() => []);
   return slugs.map((slug) => ({ slug }));
 }
 
@@ -23,7 +27,9 @@ export default async function NewsArticlePage({
   setRequestLocale(appLocale);
 
   const [article, t, tCategory] = await Promise.all([
-    client.fetch(newsBySlugQuery, { slug }).catch(() => null),
+    client
+      .fetch(newsBySlugQuery, { slug }, { next: { tags: ["sanity", "news"] } })
+      .catch(() => null),
     getTranslations("NewsPage"),
     getTranslations("NewsCategory"),
   ]);

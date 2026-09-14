@@ -14,6 +14,8 @@ const MILESTONE_KEYS = [
   "today",
 ] as const;
 
+export const revalidate = 60;
+
 export default async function AboutPage({
   params,
 }: PageProps<"/[locale]/about">) {
@@ -22,7 +24,9 @@ export default async function AboutPage({
   setRequestLocale(appLocale);
 
   const [aboutPage, t] = await Promise.all([
-    client.fetch(aboutPageQuery).catch(() => null),
+    client
+      .fetch(aboutPageQuery, {}, { next: { tags: ["sanity", "aboutPage"] } })
+      .catch(() => null),
     getTranslations("AboutPage"),
   ]);
 

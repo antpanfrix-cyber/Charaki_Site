@@ -70,6 +70,8 @@ function EventCard({
   );
 }
 
+export const revalidate = 60;
+
 export default async function EventsPage({
   params,
 }: PageProps<"/[locale]/events">) {
@@ -78,9 +80,15 @@ export default async function EventsPage({
   setRequestLocale(appLocale);
 
   const [eventsPage, upcomingEvents, pastEvents, t] = await Promise.all([
-    client.fetch(eventsPageQuery).catch(() => null),
-    client.fetch(upcomingEventsQuery).catch(() => []),
-    client.fetch(pastEventsQuery).catch(() => []),
+    client
+      .fetch(eventsPageQuery, {}, { next: { tags: ["sanity", "eventsPage"] } })
+      .catch(() => null),
+    client
+      .fetch(upcomingEventsQuery, {}, { next: { tags: ["sanity", "event"] } })
+      .catch(() => []),
+    client
+      .fetch(pastEventsQuery, {}, { next: { tags: ["sanity", "event"] } })
+      .catch(() => []),
     getTranslations("EventsPage"),
   ]);
 

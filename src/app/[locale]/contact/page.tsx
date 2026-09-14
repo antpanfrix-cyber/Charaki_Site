@@ -7,6 +7,8 @@ import type { AppLocale } from "@/sanity/locale-content";
 import { pick } from "@/sanity/locale-content";
 import { contactPageQuery, siteSettingsQuery } from "@/sanity/queries";
 
+export const revalidate = 60;
+
 export default async function ContactPage({
   params,
 }: PageProps<"/[locale]/contact">) {
@@ -15,8 +17,20 @@ export default async function ContactPage({
   setRequestLocale(appLocale);
 
   const [contactPage, siteSettings, t] = await Promise.all([
-    client.fetch(contactPageQuery).catch(() => null),
-    client.fetch(siteSettingsQuery).catch(() => null),
+    client
+      .fetch(
+        contactPageQuery,
+        {},
+        { next: { tags: ["sanity", "contactPage"] } },
+      )
+      .catch(() => null),
+    client
+      .fetch(
+        siteSettingsQuery,
+        {},
+        { next: { tags: ["sanity", "siteSettings"] } },
+      )
+      .catch(() => null),
     getTranslations("ContactPage"),
   ]);
 

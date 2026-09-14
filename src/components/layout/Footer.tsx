@@ -57,7 +57,13 @@ export async function Footer() {
   const appLocale = (await getLocale()) as AppLocale;
 
   const [siteSettings, t, tFooter, tContact] = await Promise.all([
-    client.fetch(siteSettingsQuery).catch(() => null),
+    client
+      .fetch(
+        siteSettingsQuery,
+        {},
+        { next: { tags: ["sanity", "siteSettings"] } },
+      )
+      .catch(() => null),
     getTranslations("Navigation"),
     getTranslations("Footer"),
     getTranslations("ContactPage"),

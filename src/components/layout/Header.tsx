@@ -12,7 +12,13 @@ import { MobileMenu } from "./MobileMenu";
 
 export async function Header() {
   const [siteSettings, t, tHeader] = await Promise.all([
-    client.fetch(siteSettingsQuery).catch(() => null),
+    client
+      .fetch(
+        siteSettingsQuery,
+        {},
+        { next: { tags: ["sanity", "siteSettings"] } },
+      )
+      .catch(() => null),
     getTranslations("Navigation"),
     getTranslations("Header"),
   ]);

@@ -21,6 +21,8 @@ const CARD_GRADIENTS = [
   "bg-gradient-to-tl from-navy via-navy/90 to-gold/50",
 ];
 
+export const revalidate = 60;
+
 export default async function RootsPage({
   params,
 }: PageProps<"/[locale]/roots">) {
@@ -29,7 +31,9 @@ export default async function RootsPage({
   setRequestLocale(appLocale);
 
   const [rootsPage, t] = await Promise.all([
-    client.fetch(rootsPageQuery).catch(() => null),
+    client
+      .fetch(rootsPageQuery, {}, { next: { tags: ["sanity", "rootsPage"] } })
+      .catch(() => null),
     getTranslations("RootsPage"),
   ]);
 
