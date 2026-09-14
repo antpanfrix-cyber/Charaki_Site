@@ -3,6 +3,7 @@ import Image from "next/image";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
 import { portableTextComponents } from "@/components/media/portable-text-components";
+import { resolveCard } from "@/lib/resolve-card";
 import { client } from "@/sanity/client";
 import { urlForImage } from "@/sanity/image";
 import type { AppLocale } from "@/sanity/locale-content";
@@ -46,19 +47,24 @@ export default async function RootsPage({
 
   const cards =
     rootsPage?.cards && rootsPage.cards.length > 0
-      ? rootsPage.cards.map((card) => ({
-          title: pick(card.title, appLocale, ""),
-          description: pick(card.description, appLocale, ""),
-          imageUrl: card.image
-            ? urlForImage(card.image).width(800).height(600).fit("crop").url()
-            : undefined,
-          link: card.link || undefined,
-        }))
+      ? rootsPage.cards.map((card) => {
+          const resolved = resolveCard(card, appLocale);
+          return {
+            ...resolved,
+            imageUrl: resolved.image
+              ? urlForImage(resolved.image)
+                  .width(800)
+                  .height(600)
+                  .fit("crop")
+                  .url()
+              : undefined,
+          };
+        })
       : CARD_KEYS.map((key) => ({
           title: t(`cards.${key}.title`),
           description: t(`cards.${key}.description`),
           imageUrl: undefined,
-          link: undefined,
+          href: undefined,
         }));
 
   const sections = rootsPage?.sections || [];
@@ -74,12 +80,11 @@ export default async function RootsPage({
 
       <div className="mt-14 grid gap-6 sm:grid-cols-2">
         {cards.map((card, index) => {
-          const CardWrapper = card.link ? "a" : "div";
+          const isClickable = Boolean(card.href);
           return (
-            <CardWrapper
+            <div
               key={`${card.title}-${index}`}
-              {...(card.link ? { href: card.link } : {})}
-              className="group relative aspect-4/5 overflow-hidden rounded-2xl shadow-sm sm:aspect-16/11"
+              className={`group relative aspect-4/5 overflow-hidden rounded-2xl shadow-sm outline-none sm:aspect-16/11 ${isClickable ? "cursor-pointer has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-gold has-[:focus-visible]:ring-offset-2" : ""}`}
             >
               {card.imageUrl ? (
                 <Image
@@ -96,13 +101,22 @@ export default async function RootsPage({
               <div className="absolute inset-0 bg-gradient-to-t from-navy/90 via-navy/40 to-transparent" />
               <div className="relative z-10 flex h-full flex-col justify-end overflow-hidden p-8">
                 <h2 className="text-xl font-semibold text-ivory sm:text-2xl">
-                  {card.title}
+                  {isClickable ? (
+                    <a
+                      href={card.href}
+                      className="outline-none after:absolute after:inset-0 focus-visible:outline-none"
+                    >
+                      {card.title}
+                    </a>
+                  ) : (
+                    card.title
+                  )}
                 </h2>
                 <p className="mt-2 line-clamp-3 max-w-md text-sm leading-relaxed text-ivory/85">
                   {card.description}
                 </p>
               </div>
-            </CardWrapper>
+            </div>
           );
         })}
       </div>

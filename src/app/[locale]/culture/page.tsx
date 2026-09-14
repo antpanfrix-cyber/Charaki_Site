@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
+import { resolveCard } from "@/lib/resolve-card";
 import { client } from "@/sanity/client";
 import { urlForImage } from "@/sanity/image";
 import type { AppLocale } from "@/sanity/locale-content";
@@ -53,17 +54,24 @@ export default async function CulturePage({
 
   const cards =
     culturePage?.cards && culturePage.cards.length > 0
-      ? culturePage.cards.map((card) => ({
-          title: pick(card.title, appLocale, ""),
-          description: pick(card.description, appLocale, ""),
-          imageUrl: card.image
-            ? urlForImage(card.image).width(800).height(600).fit("crop").url()
-            : undefined,
-        }))
+      ? culturePage.cards.map((card) => {
+          const resolved = resolveCard(card, appLocale);
+          return {
+            ...resolved,
+            imageUrl: resolved.image
+              ? urlForImage(resolved.image)
+                  .width(800)
+                  .height(600)
+                  .fit("crop")
+                  .url()
+              : undefined,
+          };
+        })
       : CARD_KEYS.map((key) => ({
           title: t(`cards.${key}.title`),
           description: t(`cards.${key}.description`),
           imageUrl: undefined,
+          href: undefined,
         }));
 
   return (
@@ -76,38 +84,50 @@ export default async function CulturePage({
       </div>
 
       <div className="mt-14 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-        {cards.map((card, index) => (
-          <article
-            key={`${card.title}-${index}`}
-            className="group relative flex flex-col overflow-hidden rounded-2xl border border-navy/10 bg-white shadow-sm transition-shadow hover:shadow-lg"
-          >
-            <div className="relative aspect-4/3 w-full overflow-hidden">
-              {card.imageUrl ? (
-                <Image
-                  src={card.imageUrl}
-                  alt=""
-                  fill
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-              ) : (
-                <div
-                  className={`absolute inset-0 transition-transform duration-500 group-hover:scale-105 ${CARD_GRADIENTS[index % CARD_GRADIENTS.length]}`}
-                />
-              )}
-            </div>
-            <div className="flex flex-1 flex-col gap-2 p-6">
-              <h2 className="text-lg font-semibold text-navy">
-                <a href="#" className="after:absolute after:inset-0">
-                  {card.title}
-                </a>
-              </h2>
-              <p className="text-sm text-navy/70">{card.description}</p>
-              <span className="mt-auto pt-2 text-sm font-semibold text-gold">
-                {viewMoreLabel} →
-              </span>
-            </div>
-          </article>
-        ))}
+        {cards.map((card, index) => {
+          const isClickable = Boolean(card.href);
+          return (
+            <article
+              key={`${card.title}-${index}`}
+              className={`group relative flex flex-col overflow-hidden rounded-2xl border border-navy/10 bg-white shadow-sm outline-none transition-shadow hover:shadow-lg ${isClickable ? "cursor-pointer has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-gold has-[:focus-visible]:ring-offset-2" : ""}`}
+            >
+              <div className="relative aspect-4/3 w-full overflow-hidden">
+                {card.imageUrl ? (
+                  <Image
+                    src={card.imageUrl}
+                    alt=""
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                ) : (
+                  <div
+                    className={`absolute inset-0 transition-transform duration-500 group-hover:scale-105 ${CARD_GRADIENTS[index % CARD_GRADIENTS.length]}`}
+                  />
+                )}
+              </div>
+              <div className="flex flex-1 flex-col gap-2 p-6">
+                <h2 className="text-lg font-semibold text-navy">
+                  {isClickable ? (
+                    <a
+                      href={card.href}
+                      className="outline-none after:absolute after:inset-0 focus-visible:outline-none"
+                    >
+                      {card.title}
+                    </a>
+                  ) : (
+                    card.title
+                  )}
+                </h2>
+                <p className="text-sm text-navy/70">{card.description}</p>
+                {isClickable ? (
+                  <span className="mt-auto pt-2 text-sm font-semibold text-gold">
+                    {viewMoreLabel} →
+                  </span>
+                ) : null}
+              </div>
+            </article>
+          );
+        })}
       </div>
     </div>
   );

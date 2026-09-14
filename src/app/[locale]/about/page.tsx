@@ -1,5 +1,6 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
+import { resolveCard } from "@/lib/resolve-card";
 import { client } from "@/sanity/client";
 import type { AppLocale } from "@/sanity/locale-content";
 import { pick } from "@/sanity/locale-content";
@@ -45,13 +46,11 @@ export default async function AboutPage({
 
   const milestones =
     aboutPage?.milestones && aboutPage.milestones.length > 0
-      ? aboutPage.milestones.map((milestone) => ({
-          title: pick(milestone.title, appLocale, ""),
-          description: pick(milestone.description, appLocale, ""),
-        }))
+      ? aboutPage.milestones.map((milestone) => resolveCard(milestone, appLocale))
       : MILESTONE_KEYS.map((key) => ({
           title: t(`milestones.${key}.title`),
           description: t(`milestones.${key}.description`),
+          href: undefined,
         }));
 
   return (
@@ -68,19 +67,34 @@ export default async function AboutPage({
         <p className="mt-3 text-navy/70">{journeyIntro}</p>
 
         <ol className="mt-12 border-l-2 border-gold/40 pl-10">
-          {milestones.map((milestone, index) => (
-            <li key={`${milestone.title}-${index}`} className="relative pb-14 last:pb-0">
-              <span className="absolute top-0.5 -left-[45px] flex h-8 w-8 items-center justify-center rounded-full border-2 border-gold bg-navy text-xs font-semibold text-gold">
-                {index + 1}
-              </span>
-              <h3 className="text-lg font-semibold text-navy sm:text-xl">
-                {milestone.title}
-              </h3>
-              <p className="mt-2 leading-relaxed text-navy/70">
-                {milestone.description}
-              </p>
-            </li>
-          ))}
+          {milestones.map((milestone, index) => {
+            const isClickable = Boolean(milestone.href);
+            return (
+              <li
+                key={`${milestone.title}-${index}`}
+                className={`relative pb-14 last:pb-0 outline-none ${isClickable ? "cursor-pointer has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-gold has-[:focus-visible]:ring-offset-2" : ""}`}
+              >
+                <span className="absolute top-0.5 -left-[45px] flex h-8 w-8 items-center justify-center rounded-full border-2 border-gold bg-navy text-xs font-semibold text-gold">
+                  {index + 1}
+                </span>
+                <h3 className="text-lg font-semibold text-navy sm:text-xl">
+                  {isClickable ? (
+                    <a
+                      href={milestone.href}
+                      className="outline-none after:absolute after:inset-0 focus-visible:outline-none"
+                    >
+                      {milestone.title}
+                    </a>
+                  ) : (
+                    milestone.title
+                  )}
+                </h3>
+                <p className="mt-2 leading-relaxed text-navy/70">
+                  {milestone.description}
+                </p>
+              </li>
+            );
+          })}
         </ol>
       </div>
     </div>
