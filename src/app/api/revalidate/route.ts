@@ -9,6 +9,10 @@ type WebhookPayload = {
   _type?: string;
 };
 
+export function GET() {
+  return NextResponse.json({ ok: true, route: "/api/revalidate" });
+}
+
 export async function POST(request: NextRequest) {
   const secret = process.env.SANITY_REVALIDATE_SECRET;
 
