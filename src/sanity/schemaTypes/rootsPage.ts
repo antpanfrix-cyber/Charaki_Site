@@ -43,11 +43,14 @@ export const rootsPage = defineType({
               name: "title",
               title: "Τίτλος",
               type: "localeString",
+              validation: (rule) => rule.required().max(60),
             }),
             defineField({
               name: "description",
               title: "Περιγραφή",
-              type: "localeText",
+              type: "localeTextShort",
+              description:
+                "Σύντομο εισαγωγικό κείμενο, έως 200 χαρακτήρες. Για εκτενές κείμενο χρησιμοποίησε τις Ενότητες Κειμένου παρακάτω.",
             }),
             defineField({
               name: "image",
@@ -57,12 +60,31 @@ export const rootsPage = defineType({
               description:
                 "Προαιρετική. Αν δεν προστεθεί εικόνα, η κάρτα εμφανίζεται με έγχρωμο φόντο.",
             }),
+            defineField({
+              name: "link",
+              title: "Σύνδεσμος",
+              type: "string",
+              description:
+                "Προαιρετικός. Εδώ μπαίνει η διεύθυνση της σελίδας με το πλήρες κείμενο (π.χ. /roots#asia-minor ή πλήρες εξωτερικό URL).",
+            }),
           ],
           preview: {
-            select: { title: "title.el", media: "image" },
+            select: {
+              title: "title.el",
+              subtitle: "description.el",
+              media: "image",
+            },
           },
         },
       ],
+    }),
+    defineField({
+      name: "sections",
+      title: "Ενότητες Κειμένου",
+      description:
+        "Εδώ μπαίνουν τα μεγάλα κείμενα (ιστορικό, αναμνήσεις κ.λπ.) που δεν χωράνε σε μια κάρτα-teaser. Εμφανίζονται κάτω από τις κάρτες, σε στήλη ανάγνωσης.",
+      type: "array",
+      of: [{ type: "pageSection" }],
     }),
     defineField({
       name: "cta",

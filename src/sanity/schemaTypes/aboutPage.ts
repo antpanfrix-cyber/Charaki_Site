@@ -60,15 +60,24 @@ export const aboutPage = defineType({
               name: "title",
               title: "Τίτλος",
               type: "localeString",
+              validation: (rule) => rule.required().max(60),
             }),
             defineField({
               name: "description",
               title: "Περιγραφή",
-              type: "localeText",
+              type: "localeTextShort",
+              description: "Σύντομο εισαγωγικό κείμενο, έως 200 χαρακτήρες.",
+            }),
+            defineField({
+              name: "link",
+              title: "Σύνδεσμος",
+              type: "string",
+              description:
+                "Προαιρετικός. Εδώ μπαίνει η διεύθυνση της σελίδας με το πλήρες κείμενο.",
             }),
           ],
           preview: {
-            select: { title: "title.el" },
+            select: { title: "title.el", subtitle: "description.el" },
           },
         },
       ],

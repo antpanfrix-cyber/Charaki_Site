@@ -48,6 +48,7 @@ export const rootsPageQuery = defineQuery(`
     heading,
     intro,
     cards,
+    sections,
     cta
   }
 `);

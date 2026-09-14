@@ -11,8 +11,10 @@ import { homePage } from "./homePage";
 import { localeBlockContent } from "./objects/localeBlockContent";
 import { localeString } from "./objects/localeString";
 import { localeText } from "./objects/localeText";
+import { localeTextShort } from "./objects/localeTextShort";
 import { news } from "./news";
 import { newsPage } from "./newsPage";
+import { pageSection } from "./objects/pageSection";
 import { rootsPage } from "./rootsPage";
 import { siteSettings } from "./siteSettings";
 
@@ -20,7 +22,9 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   // Reusable localized objects
   localeString,
   localeText,
+  localeTextShort,
   localeBlockContent,
+  pageSection,
   // Singletons
   homePage,
   siteSettings,
