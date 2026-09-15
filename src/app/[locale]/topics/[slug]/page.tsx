@@ -8,7 +8,7 @@ import { portableTextComponents } from "@/components/media/portable-text-compone
 import { client } from "@/sanity/client";
 import { urlForImage } from "@/sanity/image";
 import type { AppLocale } from "@/sanity/locale-content";
-import { pick, pickBlocks } from "@/sanity/locale-content";
+import { pick, pickBlocks, pickStrict } from "@/sanity/locale-content";
 import { topicBySlugQuery, topicSlugsQuery } from "@/sanity/queries";
 
 export const revalidate = 60;
@@ -26,14 +26,21 @@ export async function generateMetadata({
   const { slug, locale } = await params;
   const appLocale = locale as AppLocale;
 
-  const topic = await client
-    .fetch(topicBySlugQuery, { slug }, { next: { tags: ["sanity", "topic"] } })
-    .catch(() => null);
+  const [topic, t] = await Promise.all([
+    client
+      .fetch(
+        topicBySlugQuery,
+        { slug },
+        { next: { tags: ["sanity", "topic"] } },
+      )
+      .catch(() => null),
+    getTranslations({ locale: appLocale, namespace: "TopicPage" }),
+  ]);
 
   if (!topic) return {};
 
-  const title = pick(topic.title, appLocale, "");
-  const description = pick(topic.excerpt, appLocale, "") || undefined;
+  const title = pickStrict(topic.title, appLocale, t("untitledFallback"));
+  const description = pickStrict(topic.excerpt, appLocale, "") || undefined;
 
   return {
     title,

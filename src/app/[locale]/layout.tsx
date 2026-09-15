@@ -14,7 +14,7 @@ import { routing } from "@/i18n/routing";
 import { siteUrl } from "@/lib/site";
 import { client } from "@/sanity/client";
 import type { AppLocale } from "@/sanity/locale-content";
-import { pick } from "@/sanity/locale-content";
+import { pickStrict } from "@/sanity/locale-content";
 import { siteSettingsQuery } from "@/sanity/queries";
 
 import "../globals.css";
@@ -50,8 +50,8 @@ export async function generateMetadata({
     getTranslations({ locale: appLocale, namespace: "Metadata" }),
   ]);
 
-  const title = pick(siteSettings?.seo?.title, appLocale, t("title"));
-  const description = pick(
+  const title = pickStrict(siteSettings?.seo?.title, appLocale, t("title"));
+  const description = pickStrict(
     siteSettings?.seo?.description,
     appLocale,
     t("description"),

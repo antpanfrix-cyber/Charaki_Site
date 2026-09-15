@@ -18,6 +18,25 @@ export function pick(
   return field?.[locale] || field?.el || fallback;
 }
 
+/**
+ * DO NOT "fix" this to match pick() — it is deliberately different.
+ *
+ * For SEO metadata only (generateMetadata: <title>, <meta description>,
+ * openGraph). A Greek title/description served on an /en URL is worse than
+ * next-intl's generic English fallback: an English-speaking searcher sees
+ * Greek text in search results with no idea what it means. So unlike pick(),
+ * this skips the Greek fallback entirely — missing `en` goes straight to the
+ * caller-supplied generic fallback. Visible page content must keep using
+ * pick(), which is correct there (Greek text beats an empty/generic string).
+ */
+export function pickStrict(
+  field: LocalizedText | null | undefined,
+  locale: AppLocale,
+  fallback: string,
+) {
+  return field?.[locale] || fallback;
+}
+
 type LocalizedBlocks<T> = { el?: T[]; en?: T[] } | null | undefined;
 
 /**
