@@ -14,7 +14,10 @@ export const card = defineType({
       name: "title",
       title: "Τίτλος",
       type: "localeString",
-      validation: (rule) => rule.required().custom(maxLocaleLength(60)),
+      validation: (rule) => [
+        rule.required(),
+        rule.custom(maxLocaleLength(60)).warning(),
+      ],
     }),
     defineField({
       name: "description",

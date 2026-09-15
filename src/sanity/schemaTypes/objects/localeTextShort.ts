@@ -1,5 +1,8 @@
 import { defineField, defineType } from "sanity";
 
+const LENGTH_WARNING =
+  "Έως 200 χαρακτήρες. Για εκτενές κείμενο φτιάξε Θεματική Σελίδα και σύνδεσέ την με την κάρτα.";
+
 export const localeTextShort = defineType({
   name: "localeTextShort",
   title: "Πολύγλωσσο Κείμενο (Σύντομο εισαγωγικό)",
@@ -12,7 +15,10 @@ export const localeTextShort = defineType({
       title: "Ελληνικά",
       type: "text",
       rows: 3,
-      validation: (rule) => rule.required().max(200),
+      validation: (rule) => [
+        rule.required(),
+        rule.max(200).warning(LENGTH_WARNING),
+      ],
     }),
     defineField({
       name: "en",
@@ -21,7 +27,7 @@ export const localeTextShort = defineType({
       rows: 3,
       description:
         "Προαιρετικό. Αν μείνει κενό, εμφανίζεται το ελληνικό κείμενο.",
-      validation: (rule) => rule.max(200),
+      validation: (rule) => rule.max(200).warning(LENGTH_WARNING),
     }),
   ],
 });

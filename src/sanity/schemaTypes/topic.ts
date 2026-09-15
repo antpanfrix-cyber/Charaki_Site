@@ -36,6 +36,8 @@ export const topic = defineType({
   name: "topic",
   title: "Θεματική Σελίδα",
   type: "document",
+  description:
+    "Χρησιμοποίησέ το για εκτενές, αφηγηματικό περιεχόμενο με δική του σελίδα (ιστορία, θέμα, πρόσωπο). Συνδέεται από κάρτες/σταθμούς και εμφανίζεται στη διεύθυνση /topics/[slug].",
   fields: [
     defineField({
       name: "title",
